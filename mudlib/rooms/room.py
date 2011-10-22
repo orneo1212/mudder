@@ -5,7 +5,18 @@ class Room:
         self.name=""
         self.desc=""
         #
-        self.places=self.makearray((32,32))
+        self.size=(32,16)
+        self.places=self.makearray(self.size)
+
+    def get_representation(self):
+        """Return room represented in char as list of lines"""
+        lines=[]
+        for y in range(self.size[1]):
+            line=[]
+            for x in range(self.size[0]):
+                if self.places[y][x]==None:line.append("-")
+            lines.append(line)
+        return lines
 
     def makearray(self,size):
         array=[]

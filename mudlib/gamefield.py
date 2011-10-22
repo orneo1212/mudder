@@ -22,6 +22,10 @@ class GameField:
         if cmd=="quit":actor.client.deactivate()
         if cmd=="look":self.look(actor)
         if cmd=="help":self.showhelp(actor)
+        if cmd=="status":self.showstatus(actor)
+        if cmd=="map":self.showmap(actor)
+        #
+        actor.send_prompt()
 
     def broadcast(self, message):
         """broadcast message to all actors"""
@@ -30,9 +34,19 @@ class GameField:
 
     def showhelp(self, actor):
         """Show help"""
-        actor.client.send_cc("^gHELP:^~ Commands: help quit look\n")
+        commands="help quit look status map"
+        actor.client.send_cc("^gHELP:^~ Commands: %s\n" % commands)
 
     def look(self, actor):
         room=globalroomloader.get_room(actor.location)
-        actor.client.send_cc("You are in %s - %s" %\
+        actor.client.send_cc("You are in %s - %s\n" %\
                              (str(room.name), str(room.desc)))
+
+    def showstatus(self,actor):
+        actor.client.send_cc("STATUS\n")
+        actor.client.send_cc("Name: %s\n" % actor.name)
+
+    def showmap(self,actor):
+        room=globalroomloader.get_room(actor.location)
+        for line in room.get_representation():
+            actor.client.send_cc("".join(line)+"\n")

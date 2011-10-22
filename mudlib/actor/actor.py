@@ -36,3 +36,6 @@ class Actor:
         except:
             print "EE Failed to save character file %s" % self.name
             return
+
+    def send_prompt(self):
+        self.client.send_cc("# ")
