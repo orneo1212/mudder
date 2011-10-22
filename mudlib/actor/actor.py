@@ -10,7 +10,7 @@ class Actor:
         self.login_state=0 # 0: not logged 1: password 2:newcharacter 3: logged in 4: disconnect
         self.newingame=True
         #
-        self.location="" # uuid of room where actor is
+        self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
 
     def loaddata(self):
         """Load actor data"""

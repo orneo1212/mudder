@@ -11,7 +11,7 @@ def get_actors_files_list():
 def get_rooms_files_list():
     """Return list of rooms names (filenames)"""
     result=[]
-    files=os.listdir("data/players/")
+    files=os.listdir("data/rooms/")
     for f in files:
         if f.endswith(".json"):result.append(f)
     return result

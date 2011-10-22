@@ -1,4 +1,4 @@
-from mudlib.rooms.room import Room
+from mudlib.rooms import globalroomloader
 
 class GameField:
     def __init__(self, actors):
@@ -12,7 +12,8 @@ class GameField:
 
             #broadcast about new players
             if actor.newingame and actor.login_state==3:
-                self.broadcast("%s joined the game." % actor.name)
+                self.broadcast("%s joined the game.\n" % actor.name)
+                self.recv(actor, "help") # show help
                 actor.newingame=False
 
     def recv(self, actor, cmd):
@@ -27,9 +28,11 @@ class GameField:
         for actor in self.actors.values():
             actor.client.send_cc(message)
 
-    def showhelp(self,actor):
+    def showhelp(self, actor):
         """Show help"""
         actor.client.send_cc("^gHELP:^~ Commands: help quit look\n")
 
-    def look(self,actor):
-        pass
+    def look(self, actor):
+        room=globalroomloader.get_room(actor.location)
+        actor.client.send_cc("You are in %s - %s" %\
+                             (str(room.name), str(room.desc)))
