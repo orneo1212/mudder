@@ -38,15 +38,18 @@ class GameField:
         actor.client.send_cc("^gHELP:^~ Commands: %s\n" % commands)
 
     def look(self, actor):
+        """Show informations about room"""
         room=globalroomloader.get_room(actor.location)
         actor.client.send_cc("You are in %s - %s\n" %\
                              (str(room.name), str(room.desc)))
 
     def showstatus(self,actor):
+        """Show actor status"""
         actor.client.send_cc("STATUS\n")
         actor.client.send_cc("Name: %s\n" % actor.name)
 
     def showmap(self,actor):
+        """Show map"""
         room=globalroomloader.get_room(actor.location)
         for line in room.get_representation():
             actor.client.send_cc("".join(line)+"\n")
