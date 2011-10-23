@@ -20,7 +20,7 @@ class RoomLoader:
                 print e
                 continue
             #create room
-            newroom=Room()
+            newroom=Room(data["size"])
             newroom.uuid=data["uuid"]
             newroom.name=data["name"]
             newroom.desc=data["desc"]

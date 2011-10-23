@@ -1,17 +1,22 @@
 
 class Room:
-    def __init__(self):
+    def __init__(self,size):
         self.uuid=""
         self.name=""
         self.desc=""
         #
-        self.size=(32,16)
-        self.places=self.makearray(self.size)
+        self.size=size
+        self.places=self.makearray(size)
         self.warps=[] # teleport to thers locations [x,y,roomID]
+
+    def update(self,actor):
+        if actor.pos[0]>self.size[0]-1:actor.pos[0]=self.size[0]-1
+        if actor.pos[1]>self.size[1]-1:actor.pos[1]=self.size[1]-1
 
     def get_representation(self,actor):
         """Return room represented in char as list of lines"""
         lines=[]
+        self.update(actor)
         #Create map
         for y in range(self.size[1]):
             line=[]
