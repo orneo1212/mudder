@@ -2,7 +2,8 @@ from mudlib.rooms import globalroomloader
 
 def showhelp(actor):
     """Show help"""
-    commands="help, quit, look, status, map, say <text>"
+    commands="help, quit, look, status, map, say <text>, "
+    commands+="north, east, west, south"
     actor.client.send_cc("^gHELP:^~ Commands: %s\n" % commands)
 
 def look(actor):
@@ -61,4 +62,5 @@ def move(actor,direction):
         return True
     else:
         actor.pos=[nx,ny]
+        showmap(actor)
         return False
