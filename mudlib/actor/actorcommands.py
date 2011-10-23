@@ -1,5 +1,6 @@
-from mudlib.rooms import globalroomloader
 from mudlib.items import globalitemloader
+from mudlib.rooms import globalroomloader
+import random
 
 def showhelp(actor):
     """Show help"""
@@ -40,19 +41,19 @@ def say(actors, actor, text):
         else:
             act.client.send_cc("^m\rPowiedziales:^~ %s\n" % (text))
 
-def showonline(actors,actor):
+def showonline(actors, actor):
     """Show online users"""
     actor.client.send_cc("Teraz gra %i graczy.\n" % len(actors))
     for online in actors:
         actor.client.send_cc("^Y"+online.name+"^~, ")
     actor.client.send_cc("\n")
 
-def move(actor,direction):
+def move(actor, direction):
     """move actor in direction"""
-    mv={"n":(0,-1),
-        "s":(0,1),
-        "e":(1,0),
-        "w":(-1,0),
+    mv={"n":(0, -1),
+        "s":(0, 1),
+        "e":(1, 0),
+        "w":(-1, 0),
         }
     if direction not in mv:return 1
 
@@ -69,7 +70,7 @@ def move(actor,direction):
         actor.client.send_cc("^rNie mozesz isc tam.^~\n")
         return True
     else:
-        actor.pos=[nx,ny]
+        actor.pos=[nx, ny]
         showmap(actor)
         return False
 
@@ -87,3 +88,17 @@ def showinventory(actor, args):
         actor.client.send_cc("\r"+str(itemobj.name)+" x %s\n" % actor.inventory.count(item))
         tmpinv.append(item)
 
+def search(actor):
+    """Search for item on the ground"""
+    items=[
+           #itemuuid, chance
+           ["001", 10],
+           ["002", 5],
+           ]
+    item=random.choice(items)
+    number=random.randint(0, item[1])
+    if number==0:
+        itemobj=globalitemloader.get_item(item[0])
+        actor.client.send_cc("^G\rZnalazles %s^~\n" % itemobj.name)
+        actor.inventory.append(item[0])
+    else:actor.client.send_cc("^R\rNic nie znalazles^~\n")

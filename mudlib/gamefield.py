@@ -38,9 +38,11 @@ class GameField:
         if cmd in ["poludnie", "south", "s"]:actorcommands.move(actor, "s")
         if cmd in ["wschod", "east", "e"]:actorcommands.move(actor, "e")
         if cmd in ["zachod", "west", "w"]:actorcommands.move(actor, "w")
+        if cmd in ["szukaj", "search"]:actorcommands.search(actor)
         if cmd in ["inwentarz", "inv", "inventory"]:
             actorcommands.showinventory(actor,args)
-        if cmd in ["online"]:actorcommands.showonline(self.actors.values(), actor)
+        if cmd in ["online"]:
+            actorcommands.showonline(self.actors.values(), actor)
         #
         actor.send_prompt()
 
