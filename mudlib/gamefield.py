@@ -1,11 +1,23 @@
+from mudlib.actions import stats
 from mudlib.actor import actorcommands
+from mudlib.sys.timer import Timer
 
 class GameField:
     def __init__(self, actors):
         self.actors=actors
+        self.foodtimer=Timer()
+        self.watertimer=Timer()
 
     def update(self):
         """Update the gamefield"""
+        #decrase food
+        if self.foodtimer.timepassed(1000*5*60):
+            for actor in self.actors.values():
+                stats.decrase_food(actor)
+        #decrase water
+        if self.watertimer.timepassed(1000*10*60):
+            for actor in self.actors.values():
+                stats.decrase_water(actor)
 
         #update actors
         for actor in self.actors.values():
@@ -43,9 +55,9 @@ class GameField:
         if cmd in ["online"]:
             actorcommands.showonline(self.actors.values(), actor)
         if cmd in ["podnies", "pickup"]:
-            actorcommands.pickup(actor,args)
+            actorcommands.pickup(actor, args)
         if cmd in ["upusc", "drop"]:
-            actorcommands.drop(actor,args)
+            actorcommands.drop(actor, args)
         #
         actor.send_prompt()
 

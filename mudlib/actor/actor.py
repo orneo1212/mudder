@@ -18,11 +18,14 @@ class Actor:
         self.vit=10 # Vitality
         self.dex=10 # Dexterity
         #Survival Stats
-        self.food=100 # Food if low actor is hungry
-        self.water=100 # if low then actor is thirsty
+        self.food=100.0 # Food if low actor is hungry
+        self.water=100.0 # if low then actor is thirsty
         #
         self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
         self.found_item=False # does actor found item in area #TODO: reset this on enter other location
+
+    def update(self):
+        pass
 
     def onconnect(self):
         pass

@@ -46,8 +46,8 @@ def showstatus(actor):
     actor.client.send_cc("  ^YInteligencja:^~ %s\n" % actor.int)
     actor.client.send_cc("  ^YWitalnosc:^~ %s\n" % actor.vit)
     actor.client.send_cc("  ^YZrecznosc:^~ %s\n" % actor.dex)
-    actor.client.send_cc("  ^YJedzenie:^~ %s %%\n" % actor.food)
-    actor.client.send_cc("  ^YWoda:^~ %s %%\n" % actor.water)
+    actor.client.send_cc("  ^YJedzenie:^~ %s %%\n" % int(actor.food))
+    actor.client.send_cc("  ^YWoda:^~ %s %%\n" % int(actor.water))
     #actor.client.send_cc("  ^Y-------------------------^~\n")
     #actor.client.send_cc("  ^YPozycja:^~ %s\n" % actor.pos)
 
@@ -81,6 +81,7 @@ def move(actor, direction):
     else:
         actor.location=room.exits[direction]
         look(actor)
+        actor.water-=0.1 # decrease water
         return False
 
 def showinventory(actor, args):
