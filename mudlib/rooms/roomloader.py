@@ -10,7 +10,7 @@ class RoomLoader:
 
     def load_rooms(self):
         """Load rooms"""
-        #If requested room is not loaded loasd it
+        #If requested room is not loaded load it
         for roomfile in get_rooms_files_list():
             roompath=os.path.join(mudlib.rootpath, "data/rooms/%s" % roomfile)
             #try load data

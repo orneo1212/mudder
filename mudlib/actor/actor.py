@@ -10,6 +10,7 @@ class Actor:
         self.login_state=0 # 0: not logged 1: password 2:newcharacter 3: logged in 4: disconnect
         self.newingame=True
         self.pos=[0,0]
+        self.inventory=[] # list of items
         #RPG Stats
         self.hp=[100, 100] # Health points
         self.mp=[100, 100] # Mana points
@@ -51,6 +52,8 @@ class Actor:
             self.vit=data["vit"]
         if data.has_key("dex"):
             self.dex=data["dex"]
+        if data.has_key("inventory"):
+            self.inventory=data["inventory"]
 
     def savedata(self):
         """Save actor data"""
@@ -66,6 +69,7 @@ class Actor:
         data["vit"]=self.vit
         data["dex"]=self.dex
         data["pos"]=self.pos
+        data["inventory"]=self.inventory
 
         try:
             json.dump(data, open(actorfile, "w"), indent=2)

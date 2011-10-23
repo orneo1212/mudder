@@ -1,9 +1,10 @@
 from mudlib.rooms import globalroomloader
+from mudlib.items import globalitemloader
 
 def showhelp(actor):
     """Show help"""
     commands="pomoc, wyjdz, patrz, status, mapa, powiedz <text>, "
-    commands+="polnoc, wschod, zachod, poludnie, online"
+    commands+="polnoc, wschod, zachod, poludnie, online, inwentarz"
     actor.client.send_cc("^gPOMOC:^~ Polecenia: %s\n" % commands)
 
 def look(actor):
@@ -71,3 +72,18 @@ def move(actor,direction):
         actor.pos=[nx,ny]
         showmap(actor)
         return False
+
+def showinventory(actor, args):
+    """Show actor inventory"""
+    if len(actor.inventory)==0:
+        actor.client.send_cc("\r^gNic nie masz w plecaku^~\n")
+        return
+    actor.client.send_cc("^Y\rZawartosc twojego plecaka^~\n")
+
+    tmpinv=[]
+    for item in actor.inventory[:]:
+        if item in tmpinv:continue
+        itemobj=globalitemloader.get_item(item)
+        actor.client.send_cc("\r"+str(itemobj.name)+" x %s\n" % actor.inventory.count(item))
+        tmpinv.append(item)
+
