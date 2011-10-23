@@ -46,6 +46,7 @@ class MudderServer:
         """Process client"""
 
         for client in self.clients:
+            if client.idle()>60:client.deactivate()
             #Get actor reresented by connection
             actor=self.actors[client.fileno]
             if actor.login_state==4:client.deactivate()

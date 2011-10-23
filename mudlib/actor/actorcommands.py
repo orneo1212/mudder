@@ -113,6 +113,7 @@ def enterlocation(actor):
         if actor.pos[0]==warp[0] and actor.pos[1]==warp[1]:
             actor.location=warp[2]
             actor.client.send_cc("^g\rWchodzisz.^~\n")
+            actor.found_item=False
             look(actor)
             return
     #not on warp
