@@ -11,7 +11,7 @@ def Login(actor, command):
                 actor.name=command
                 actor.loaddata()
                 actor.login_state=1
-                actor.client.send_cc("^gName correct.^~\nEnter your password:")
+                actor.client.send_cc("^gCharacter exists.^~\nEnter your password:")
                 actor.client.password_mode_on()
             #New actor
             else:
@@ -35,13 +35,14 @@ def Login(actor, command):
 
     # New character
     elif actor.login_state==2:
+        actor.password=command
         actor.client.password_mode_off()
         actor.client.send_cc("^g\nCharacter created.^~\n")
         actor.login_state=3 # Logged in
 
 def check_name(actor, name):
     """Return True if actor can use that name. (correct syntax)"""
-    if len(name)>3 and len(name)<=5:return True
+    if len(name)>3 and len(name)<=20:return True
     else:return False
 
 def actor_exist(actor,name):

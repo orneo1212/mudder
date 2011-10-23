@@ -32,10 +32,12 @@ class MudderServer:
         client.request_terminal_type()
         #add client
         self.actors[client.fileno]=Actor(client)
+        self.actors[client.fileno].onconnect()
         self.clients.append(client)
         print "++ User connected from %s" % str(client.address)
 
     def ondisconnect(self, client):
+        self.actors[client.fileno].ondisconnect()
         self.actors.pop(client.fileno)
         self.clients.remove(client)
         print "-- User disconnected from %s" % str(client.address)
@@ -67,6 +69,8 @@ class MudderServer:
                 self.processclient()
                 self.gamefield.update()
         except KeyboardInterrupt,e:self.onexit(e)
+        #Unload data
+        self.gamefield.unloaddata()
 
     def onexit(self, error):
         print "\rStopping Server..."
