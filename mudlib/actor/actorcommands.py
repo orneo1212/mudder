@@ -2,28 +2,28 @@ from mudlib.rooms import globalroomloader
 
 def showhelp(actor):
     """Show help"""
-    commands="help, quit, look, status, map, say <text>, "
-    commands+="north, east, west, south, online"
-    actor.client.send_cc("^gHELP:^~ Commands: %s\n" % commands)
+    commands="pomoc, wyjdz, patrz, status, mapa, powiedz <text>, "
+    commands+="polnoc, wschod, zachod, poludnie, online"
+    actor.client.send_cc("^gPOMOC:^~ Polecenia: %s\n" % commands)
 
 def look(actor):
     """Show informations about room"""
     room=globalroomloader.get_room(actor.location)
-    actor.client.send_cc("You are in ^g%s^~ - ^y%s^~\n" %\
+    actor.client.send_cc("Jestes w ^g%s^~ - ^y%s^~\n" %\
                          (str(room.name), str(room.desc)))
 
 def showstatus(actor):
     """Show actor status"""
     actor.client.send_cc("^YSTATUS^~\n")
-    actor.client.send_cc("  ^YName:^~ %s\n" % actor.name)
+    actor.client.send_cc("  ^YImie:^~ %s\n" % actor.name)
     actor.client.send_cc("  ^YHP:^~ %s\n" % actor.hp)
     actor.client.send_cc("  ^YMP:^~ %s\n" % actor.mp)
-    actor.client.send_cc("  ^YStrength:^~ %s\n" % actor.str)
-    actor.client.send_cc("  ^YInteligence:^~ %s\n" % actor.int)
-    actor.client.send_cc("  ^YVitality:^~ %s\n" % actor.vit)
-    actor.client.send_cc("  ^YDexterity:^~ %s\n" % actor.dex)
+    actor.client.send_cc("  ^YSila:^~ %s\n" % actor.str)
+    actor.client.send_cc("  ^YInteligencja:^~ %s\n" % actor.int)
+    actor.client.send_cc("  ^YWitalnosc:^~ %s\n" % actor.vit)
+    actor.client.send_cc("  ^YZrecznosc:^~ %s\n" % actor.dex)
     actor.client.send_cc("  ^Y-------------------------^~\n")
-    actor.client.send_cc("  ^YPosition:^~ %s\n" % actor.pos)
+    actor.client.send_cc("  ^YPozycja:^~ %s\n" % actor.pos)
 
 def showmap(actor):
     """Show map"""
@@ -35,13 +35,13 @@ def say(actors, actor, text):
     """Say text"""
     for act in actors:
         if act!=actor:
-            act.client.send_cc("^Y%s say:^~ %s\n" % (actor.name, text))
+            act.client.send_cc("^Y%s powiedzial:^~ %s\n" % (actor.name, text))
         else:
-            act.client.send_cc("^mYou say:^~ %s\n" % (text))
+            act.client.send_cc("^mPowiedzialesz:^~ %s\n" % (text))
 
 def showonline(actors,actor):
     """Show online users"""
-    actor.client.send_cc("There %i players online.\n" % len(actors))
+    actor.client.send_cc("Teraz gra %i graczy.\n" % len(actors))
     for online in actors:
         actor.client.send_cc("^Y"+online.name+"^~, ")
     actor.client.send_cc("\n")
@@ -65,7 +65,7 @@ def move(actor,direction):
     if nx <0 or ny<0 or nx>room.size[0]-1 or ny>room.size[1]-1:err=1 #cannot move
 
     if err:
-        actor.client.send_cc("^rYou can't go there.^~\n")
+        actor.client.send_cc("^rNie mozesz isc tam.^~\n")
         return True
     else:
         actor.pos=[nx,ny]

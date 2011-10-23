@@ -11,33 +11,33 @@ def Login(actor, command):
                 actor.name=command
                 actor.loaddata()
                 actor.login_state=1
-                actor.client.send_cc("^gCharacter exists.^~\nEnter your password:")
+                actor.client.send_cc("^gPostac istnieje.^~\nPodaj swoje haslo:")
                 actor.client.password_mode_on()
             #New actor
             else:
                 actor.name=command
                 actor.loaddata()
                 actor.login_state=2
-                actor.client.send_cc("\rCharacter not exist. Enter new password:")
+                actor.client.send_cc("\rPostac nie istnieje. Podaj haslo dla nowej postaci:")
                 actor.client.password_mode_on()
-        else:actor.client.send_cc("^rWrong name.^~ Enter new one:")
+        else:actor.client.send_cc("^rZle imie.^~ Wprowadz nowe:")
 
     # password not specified
     elif actor.login_state==1:
         correct=check_password(actor, command)
         if correct: # if password correct
             actor.client.password_mode_off()
-            actor.client.send_cc("^g\nLogin success.^~\n")
+            actor.client.send_cc("^g\nLogowanie powiodlo sie.^~\n")
             actor.login_state=3 # login success
         else:
-            actor.client.send_cc("^r\nWrong password.^~\n")
+            actor.client.send_cc("^r\nZle haslo.^~\n")
             actor.login_state=4 # Failed disconnect on poll
 
     # New character
     elif actor.login_state==2:
         actor.password=command
         actor.client.password_mode_off()
-        actor.client.send_cc("^g\nCharacter created.^~\n")
+        actor.client.send_cc("^g\nPostac stworzona.^~\n")
         actor.login_state=3 # Logged in
 
 def check_name(actor, name):

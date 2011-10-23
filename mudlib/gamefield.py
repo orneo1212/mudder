@@ -11,8 +11,8 @@ class GameField:
         for actor in self.actors.values():
             #broadcast about new players
             if actor.newingame and actor.login_state==3:
-                self.broadcast("%s joined the game.\n" % actor.name)
-                self.recv(actor, "help") # show help
+                self.broadcast("%s dolaczyl do gry.\n" % actor.name)
+                self.recv(actor, "pomoc") # show help
                 actor.newingame=False
 
     def recv(self, actor, cmd):
@@ -27,16 +27,16 @@ class GameField:
             args=[]
 
         #Parse commands
-        if cmd=="quit":actor.client.deactivate()
-        if cmd in ["look","l"]:actorcommands.look(actor)
-        if cmd in ["help","h"]:actorcommands.showhelp(actor)
+        if cmd=="wyjdz":actor.client.deactivate()
+        if cmd in ["patrz","p"]:actorcommands.look(actor)
+        if cmd in ["pomoc","p"]:actorcommands.showhelp(actor)
         if cmd in ["status","st"]:actorcommands.showstatus(actor)
-        if cmd in ["map"]:actorcommands.showmap(actor)
-        if cmd in ["say","~"]:actorcommands.say(self.actors.values(), actor, " ".join(args))
-        if cmd in ["north","n"]:actorcommands.move(actor, "n")
-        if cmd in ["south","s"]:actorcommands.move(actor, "s")
-        if cmd in ["east","e"]:actorcommands.move(actor, "e")
-        if cmd in ["west","w"]:actorcommands.move(actor, "w")
+        if cmd in ["mapa"]:actorcommands.showmap(actor)
+        if cmd in ["powiedz","~"]:actorcommands.say(self.actors.values(), actor, " ".join(args))
+        if cmd in ["polnoc","n"]:actorcommands.move(actor, "n")
+        if cmd in ["poludnie","s"]:actorcommands.move(actor, "s")
+        if cmd in ["wschod","e"]:actorcommands.move(actor, "e")
+        if cmd in ["zachod","w"]:actorcommands.move(actor, "w")
         if cmd in ["online"]:actorcommands.showonline(self.actors.values(),actor)
         #
         actor.send_prompt()

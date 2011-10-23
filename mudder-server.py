@@ -27,8 +27,8 @@ class MudderServer:
         self.running=True
 
     def onconnect(self, client):
-        client.send_cc("Welcome client...\n")
-        client.send_cc("Enter your name:")
+        client.send_cc("Witaj...\n")
+        client.send_cc("Wprowadz imie:")
         client.request_terminal_type()
         #add client
         self.actors[client.fileno]=Actor(client)
