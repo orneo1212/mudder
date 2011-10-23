@@ -9,7 +9,6 @@ class Actor:
         self.password=""
         self.login_state=0 # 0: not logged 1: password 2:newcharacter 3: logged in 4: disconnect
         self.newingame=True
-        self.pos=[0,0]
         self.inventory=[] # list of items
         #RPG Stats
         self.hp=[100, 100] # Health points
@@ -37,8 +36,6 @@ class Actor:
             print "EE Failed to load character file %s" % self.name
             return
         #load data here
-        if data.has_key("pos"):
-            self.pos=data["pos"]
         if data.has_key("location"):
             self.location=data["location"]
         if data.has_key("password"):
@@ -71,7 +68,6 @@ class Actor:
         data["int"]=self.int
         data["vit"]=self.vit
         data["dex"]=self.dex
-        data["pos"]=self.pos
         data["location"]=self.location
         data["inventory"]=self.inventory
 

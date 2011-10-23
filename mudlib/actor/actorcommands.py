@@ -4,14 +4,24 @@ import random
 
 def showhelp(actor):
     """Show help"""
-    commands="pomoc, wyjdz, patrz, status, mapa, powiedz <text>, "
-    commands+="polnoc, wschod, zachod, poludnie, online, inwentarz, szukaj, "
-    commands+="wejdz, "
+    commands="pomoc, wyjdz, patrz, status, powiedz <text>, szukaj, "
+    commands+="polnoc, wschod, zachod, poludnie, online, inwentarz, "
+    commands+=""
     actor.client.send_cc("^gPOMOC:^~ Polecenia: %s\n" % commands)
 
 def look(actor):
     """Show informations about room"""
     room=globalroomloader.get_room(actor.location)
+
+    #Show exits
+    actor.client.send_cc("\r[ ^Y")
+    for exit in room.exits:
+        if exit=="n":actor.client.send_cc("polnoc ")
+        elif exit=="e":actor.client.send_cc("wschod ")
+        elif exit=="w":actor.client.send_cc("zachod ")
+        elif exit=="s":actor.client.send_cc("poludnie ")
+    actor.client.send_cc("^~ ]\n")
+    #show information about location
     actor.client.send_cc("Jestes w ^g%s^~ - ^y%s^~\n" %\
                          (str(room.name), str(room.desc)))
 
@@ -27,15 +37,6 @@ def showstatus(actor):
     actor.client.send_cc("  ^YZrecznosc:^~ %s\n" % actor.dex)
     #actor.client.send_cc("  ^Y-------------------------^~\n")
     #actor.client.send_cc("  ^YPozycja:^~ %s\n" % actor.pos)
-
-def showmap(actor):
-    """Show map"""
-    room=globalroomloader.get_room(actor.location)
-    actor.client.send_cc("\r^Y============================^~\n")
-    actor.client.send_cc("\r^Y%s^~\n" % room.name)
-    actor.client.send_cc("\r^Y============================^~\n")
-    for line in room.get_representation(actor):
-        actor.client.send_cc("\r"+"".join(line)+"\n")
 
 def say(actors, actor, text):
     """Say text"""
@@ -54,28 +55,19 @@ def showonline(actors, actor):
 
 def move(actor, direction):
     """move actor in direction"""
-    mv={"n":(0, -1),
-        "s":(0, 1),
-        "e":(1, 0),
-        "w":(-1, 0),
-        }
-    if direction not in mv:return 1
 
     room=globalroomloader.get_room(actor.location)
 
     err=0
 
-    nx=actor.pos[0]+mv[direction][0]
-    ny=actor.pos[1]+mv[direction][1]
-
-    if nx <0 or ny<0 or nx>room.size[0]-1 or ny>room.size[1]-1:err=1 #cannot move
+    if direction not in room.exits.keys():err=1
 
     if err:
-        actor.client.send_cc("^rNie mozesz isc tam.^~\n")
+        actor.client.send_cc("^rNie mozesz isc w tym kierunku.^~\n")
         return True
     else:
-        actor.pos=[nx, ny]
-        showmap(actor)
+        actor.location=room.exits[direction]
+        look(actor)
         return False
 
 def showinventory(actor, args):
@@ -108,18 +100,3 @@ def search(actor):
         actor.client.send_cc("^G\rZnalazles %s^~\n" % itemobj.name)
         actor.inventory.append(item[0])
     else:actor.client.send_cc("^R\rNic nie znalazles^~\n")
-
-def enterlocation(actor):
-    room=globalroomloader.get_room(actor.location)
-    #warp [posx,posy,locationUUID,destX,destY]
-    for warp in room.warps:
-        if actor.pos[0]==warp[0] and actor.pos[1]==warp[1]:
-            actor.location=warp[2]
-            actor.client.send_cc("^g\rWchodzisz.^~\n")
-            actor.pos=[warp[3],warp[4]]
-            actor.found_item=False
-            showmap(actor)
-            look(actor)
-            return
-    #not on warp
-    actor.client.send_cc("^r\rTu nie ma zadnego wejscia.^~\n")

@@ -20,11 +20,11 @@ class RoomLoader:
                 print e
                 continue
             #create room
-            newroom=Room(data["size"])
+            newroom=Room()
             newroom.uuid=data["uuid"]
             newroom.name=data["name"]
             newroom.desc=data["desc"]
-            newroom.warps=data["warps"] #restore warps
+            newroom.exits=data["exits"] #restore warps
 
             #for place in places:
             #    # [X,Y,roomUuid]

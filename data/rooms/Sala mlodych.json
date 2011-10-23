@@ -3,5 +3,7 @@
 "uuid":"ae97b6d290c722114f5631e5aab51c4a",
 "name":"Sala mlodych",
 "desc":"Nauczysz sie tutaj jak grac.",
-"warps":[[3,3,"467fb898baf293e1275e2dcfd5a45f9d",0,9]]
+"exits":{
+    "n":"467fb898baf293e1275e2dcfd5a45f9d"
+    }
 }
