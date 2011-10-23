@@ -5,7 +5,8 @@ import random
 def showhelp(actor):
     """Show help"""
     commands="pomoc, wyjdz, patrz, status, mapa, powiedz <text>, "
-    commands+="polnoc, wschod, zachod, poludnie, online, inwentarz"
+    commands+="polnoc, wschod, zachod, poludnie, online, inwentarz, szukaj, "
+    commands+="wejdz, "
     actor.client.send_cc("^gPOMOC:^~ Polecenia: %s\n" % commands)
 
 def look(actor):
@@ -24,14 +25,15 @@ def showstatus(actor):
     actor.client.send_cc("  ^YInteligencja:^~ %s\n" % actor.int)
     actor.client.send_cc("  ^YWitalnosc:^~ %s\n" % actor.vit)
     actor.client.send_cc("  ^YZrecznosc:^~ %s\n" % actor.dex)
-    actor.client.send_cc("  ^Y-------------------------^~\n")
-    actor.client.send_cc("  ^YPozycja:^~ %s\n" % actor.pos)
+    #actor.client.send_cc("  ^Y-------------------------^~\n")
+    #actor.client.send_cc("  ^YPozycja:^~ %s\n" % actor.pos)
 
 def showmap(actor):
     """Show map"""
     room=globalroomloader.get_room(actor.location)
+    actor.client.send_cc("\r^YMAPA^~\n")
     for line in room.get_representation(actor):
-        actor.client.send_cc("".join(line)+"\n")
+        actor.client.send_cc("\r"+"".join(line)+"\n")
 
 def say(actors, actor, text):
     """Say text"""
@@ -92,13 +94,26 @@ def search(actor):
     """Search for item on the ground"""
     items=[
            #itemuuid, chance
-           ["001", 10],
-           ["002", 5],
+           ["001", 1],
+           ["002", 30],
            ]
     item=random.choice(items)
-    number=random.randint(0, item[1])
-    if number==0:
+    number=random.randint(0, 100)
+    if number<=item[1] and not actor.found_item:
+        actor.found_item=True # Actor found item in this area
+        #create object
         itemobj=globalitemloader.get_item(item[0])
         actor.client.send_cc("^G\rZnalazles %s^~\n" % itemobj.name)
         actor.inventory.append(item[0])
     else:actor.client.send_cc("^R\rNic nie znalazles^~\n")
+
+def enterlocation(actor):
+    room=globalroomloader.get_room(actor.location)
+    for warp in room.warps:
+        if actor.pos[0]==warp[0] and actor.pos[1]==warp[1]:
+            actor.location=warp[2]
+            actor.client.send_cc("^g\rWchodzisz.^~\n")
+            look(actor)
+            return
+    #not on warp
+    actor.client.send_cc("^r\rTu nie ma zadnego wejscia.^~\n")

@@ -24,11 +24,11 @@ class RoomLoader:
             newroom.uuid=data["uuid"]
             newroom.name=data["name"]
             newroom.desc=data["desc"]
-            #restore warps
-            places=data["warps"]
-            for place in places:
-                # [X,Y,roomUuid]
-                newroom.places[place[1]][place[0]]=place[2]
+            newroom.warps=data["warps"] #restore warps
+
+            #for place in places:
+            #    # [X,Y,roomUuid]
+            #    newroom.places[place[1]][place[0]]=place[2]
             self.rooms[newroom.uuid]=newroom
 
     def get_room(self, uuid):

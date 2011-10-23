@@ -20,6 +20,7 @@ class Actor:
         self.dex=10 # Dexterity
         #
         self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
+        self.found_item=False # does actor found item in area #TODO: reset this on enter other location
 
     def onconnect(self):
         pass
@@ -38,6 +39,8 @@ class Actor:
         #load data here
         if data.has_key("pos"):
             self.pos=data["pos"]
+        if data.has_key("location"):
+            self.location=data["location"]
         if data.has_key("password"):
             self.password=data["password"]
         if data.has_key("hp"):
@@ -69,6 +72,7 @@ class Actor:
         data["vit"]=self.vit
         data["dex"]=self.dex
         data["pos"]=self.pos
+        data["location"]=self.location
         data["inventory"]=self.inventory
 
         try:
