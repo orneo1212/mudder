@@ -31,6 +31,7 @@ class GameField:
         if cmd=="help":actorcommands.showhelp(actor)
         if cmd=="status":actorcommands.showstatus(actor)
         if cmd=="map":actorcommands.showmap(actor)
+        if cmd=="say":actorcommands.say(self.actors, actor, " ".join(args))
         #
         actor.send_prompt()
 

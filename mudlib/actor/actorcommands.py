@@ -27,3 +27,10 @@ def showmap(actor):
     room=globalroomloader.get_room(actor.location)
     for line in room.get_representation(actor):
         actor.client.send_cc("".join(line)+"\n")
+
+def say(actors, actor,text):
+    for act in actors:
+        if act!=actor:
+            act.client.send_cc("^Y%s say:^~%s" % (actor.name,text))
+        else:
+            act.client.send_cc("^mYou say:^~%s" % (text))
