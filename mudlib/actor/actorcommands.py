@@ -3,7 +3,7 @@ from mudlib.rooms import globalroomloader
 def showhelp(actor):
     """Show help"""
     commands="help, quit, look, status, map, say <text>, "
-    commands+="north, east, west, south"
+    commands+="north, east, west, south, online"
     actor.client.send_cc("^gHELP:^~ Commands: %s\n" % commands)
 
 def look(actor):
@@ -38,6 +38,13 @@ def say(actors, actor, text):
             act.client.send_cc("^Y%s say:^~ %s\n" % (actor.name, text))
         else:
             act.client.send_cc("^mYou say:^~ %s\n" % (text))
+
+def showonline(actors,actor):
+    """Show online users"""
+    actor.client.send_cc("There %i players online.\n" % len(actors))
+    for online in actors:
+        actor.client.send_cc("^Y"+online.name+"^~, ")
+    actor.client.send_cc("\n")
 
 def move(actor,direction):
     """move actor in direction"""

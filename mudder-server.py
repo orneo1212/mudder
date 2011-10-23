@@ -69,12 +69,12 @@ class MudderServer:
                 self.processclient()
                 self.gamefield.update()
         except KeyboardInterrupt,e:self.onexit(e)
-        #Unload data
-        self.gamefield.unloaddata()
 
     def onexit(self, error):
         print "\rStopping Server..."
         print error
+        #Unload data
+        self.gamefield.unloaddata()
         exit(1)
 
 if __name__=="__main__":

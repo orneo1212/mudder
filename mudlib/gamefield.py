@@ -9,7 +9,6 @@ class GameField:
 
         #update actors
         for actor in self.actors.values():
-
             #broadcast about new players
             if actor.newingame and actor.login_state==3:
                 self.broadcast("%s joined the game.\n" % actor.name)
@@ -19,6 +18,7 @@ class GameField:
     def recv(self, actor, cmd):
         """Received command from actor"""
         cmd=cmd.split()
+        #parse arguments and command
         if len(cmd)>1:
             args=cmd[1:]
             cmd=cmd[0]
@@ -26,6 +26,7 @@ class GameField:
             cmd=cmd[0]
             args=[]
 
+        #Parse commands
         if cmd=="quit":actor.client.deactivate()
         if cmd in ["look","l"]:actorcommands.look(actor)
         if cmd in ["help","h"]:actorcommands.showhelp(actor)
@@ -36,12 +37,13 @@ class GameField:
         if cmd in ["south","s"]:actorcommands.move(actor, "s")
         if cmd in ["east","e"]:actorcommands.move(actor, "e")
         if cmd in ["west","w"]:actorcommands.move(actor, "w")
+        if cmd in ["online"]:actorcommands.showonline(self.actors.values(),actor)
         #
         actor.send_prompt()
 
     def unloaddata(self):
         """Unload data"""
-        for actor in self.actors:
+        for actor in self.actors.values():
             actor.savedata()
 
     def broadcast(self, message):
