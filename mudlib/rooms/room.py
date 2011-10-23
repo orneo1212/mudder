@@ -6,3 +6,4 @@ class Room:
         self.desc=""
         #
         self.exits={} # Exits
+        self.items=["001"] # Items on the ground

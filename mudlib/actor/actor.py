@@ -17,6 +17,9 @@ class Actor:
         self.int=10 # Inteligence
         self.vit=10 # Vitality
         self.dex=10 # Dexterity
+        #Survival Stats
+        self.food=100 # Food if low actor is hungry
+        self.water=100 # if low then actor is thirsty
         #
         self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
         self.found_item=False # does actor found item in area #TODO: reset this on enter other location
@@ -54,6 +57,10 @@ class Actor:
             self.dex=data["dex"]
         if data.has_key("inventory"):
             self.inventory=data["inventory"]
+        if data.has_key("food"):
+            self.food=data["food"]
+        if data.has_key("water"):
+            self.water=data["water"]
 
     def savedata(self):
         """Save actor data"""
@@ -70,6 +77,8 @@ class Actor:
         data["dex"]=self.dex
         data["location"]=self.location
         data["inventory"]=self.inventory
+        data["food"]=self.food
+        data["water"]=self.water
 
         try:
             json.dump(data, open(actorfile, "w"), indent=2)
@@ -81,3 +90,7 @@ class Actor:
 
     def send_prompt(self):
         self.client.send_cc("# ^~")
+
+    def send(self,text):
+        """Send text to client using send_cc"""
+        self.client.send_cc(text)

@@ -12,7 +12,7 @@ class GameField:
             #broadcast about new players
             if actor.newingame and actor.login_state==3:
                 self.broadcast("%s dolaczyl do gry.\n" % actor.name)
-                self.recv(actor, "pomoc") # show help
+                self.recv(actor, "look") # show info
                 actor.newingame=False
 
     def recv(self, actor, cmd):
@@ -42,6 +42,10 @@ class GameField:
             actorcommands.showinventory(actor, args)
         if cmd in ["online"]:
             actorcommands.showonline(self.actors.values(), actor)
+        if cmd in ["podnies", "pickup"]:
+            actorcommands.pickup(actor,args)
+        if cmd in ["upusc", "drop"]:
+            actorcommands.drop(actor,args)
         #
         actor.send_prompt()
 

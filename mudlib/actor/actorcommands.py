@@ -6,7 +6,7 @@ def showhelp(actor):
     """Show help"""
     commands="pomoc, wyjdz, patrz, status, powiedz <text>, szukaj, "
     commands+="polnoc, wschod, zachod, poludnie, online, inwentarz, "
-    commands+=""
+    commands+="podnies <nazwa>, upusc <nazwa>"
     actor.client.send_cc("^gPOMOC:^~ Polecenia: %s\n" % commands)
 
 def look(actor):
@@ -14,7 +14,7 @@ def look(actor):
     room=globalroomloader.get_room(actor.location)
 
     #Show exits
-    actor.client.send_cc("\r[ ^Y")
+    actor.client.send_cc("\r[ Wyjscia: ^Y")
     for exit in room.exits:
         if exit=="n":actor.client.send_cc("polnoc ")
         elif exit=="e":actor.client.send_cc("wschod ")
@@ -24,6 +24,17 @@ def look(actor):
     #show information about location
     actor.client.send_cc("Jestes w ^g%s^~ - ^y%s^~\n" %\
                          (str(room.name), str(room.desc)))
+    #show items on the ground
+    if len(room.items)>0:
+        if len(room.items)>1:
+            actor.send("\r^G  Tu leza ")
+        else:
+            actor.send("\r^G  Tu lezy ")
+        #enumarate items
+        for item in room.items:
+            itemobj=globalitemloader.get_item(item)
+            actor.send(str(itemobj.name)+" ")
+        actor.send("^~\n")
 
 def showstatus(actor):
     """Show actor status"""
@@ -35,6 +46,8 @@ def showstatus(actor):
     actor.client.send_cc("  ^YInteligencja:^~ %s\n" % actor.int)
     actor.client.send_cc("  ^YWitalnosc:^~ %s\n" % actor.vit)
     actor.client.send_cc("  ^YZrecznosc:^~ %s\n" % actor.dex)
+    actor.client.send_cc("  ^YJedzenie:^~ %s %%\n" % actor.food)
+    actor.client.send_cc("  ^YWoda:^~ %s %%\n" % actor.water)
     #actor.client.send_cc("  ^Y-------------------------^~\n")
     #actor.client.send_cc("  ^YPozycja:^~ %s\n" % actor.pos)
 
@@ -81,7 +94,7 @@ def showinventory(actor, args):
     for item in actor.inventory[:]:
         if item in tmpinv:continue
         itemobj=globalitemloader.get_item(item)
-        actor.client.send_cc("\r"+str(itemobj.name)+" x %s\n" % actor.inventory.count(item))
+        actor.client.send_cc("\r  "+str(itemobj.name)+" x %s\n" % actor.inventory.count(item))
         tmpinv.append(item)
 
 def search(actor):
@@ -100,3 +113,41 @@ def search(actor):
         actor.client.send_cc("^G\rZnalazles %s^~\n" % itemobj.name)
         actor.inventory.append(item[0])
     else:actor.client.send_cc("^R\rNic nie znalazles^~\n")
+
+def pickup(actor,args):
+    """pickup item from ground"""
+    if len(args)==0:
+        actor.send("\r^rPodniesc co?^~\n")
+        return
+
+    args=" ".join(args)
+    room=globalroomloader.get_room(actor.location)
+
+    for item in room.items:
+        itemobj=globalitemloader.get_item(item)
+        if args.lower() in itemobj.name.lower():
+            actor.send("\r^gPodnosisz %s.^~\n" % itemobj.name)
+            actor.inventory.append(item)
+            room.items.remove(item)
+            return
+    #there no item with given part of name
+    actor.send("\r^rNie lezy tu nic o podanej nazwie.^~\n")
+
+def drop(actor,args):
+    """drop item into ground"""
+    if len(args)==0:
+        actor.send("\r^rUpuscic co?^~\n")
+        return
+
+    args=" ".join(args)
+    room=globalroomloader.get_room(actor.location)
+
+    for item in actor.inventory:
+        itemobj=globalitemloader.get_item(item)
+        if args.lower() in itemobj.name.lower():
+            actor.inventory.remove(item)
+            room.items.append(item)
+            actor.send("\r^gWyrzucilesz %s^~\n" % itemobj.name)
+            return
+    #there no item with given part of name
+    actor.send("\r^rNie masz nic o podanej nazwie.^~\n")
