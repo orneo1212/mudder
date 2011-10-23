@@ -35,9 +35,9 @@ def say(actors, actor, text):
     """Say text"""
     for act in actors:
         if act!=actor:
-            act.client.send_cc("^Y%s powiedzial:^~ %s\n" % (actor.name, text))
+            act.client.send_cc("^Y\r%s powiedzial:^~ %s\n" % (actor.name, text))
         else:
-            act.client.send_cc("^mPowiedzialesz:^~ %s\n" % (text))
+            act.client.send_cc("^m\rPowiedziales:^~ %s\n" % (text))
 
 def showonline(actors,actor):
     """Show online users"""

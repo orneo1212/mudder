@@ -27,17 +27,17 @@ class GameField:
             args=[]
 
         #Parse commands
-        if cmd=="wyjdz":actor.client.deactivate()
-        if cmd in ["patrz","p"]:actorcommands.look(actor)
-        if cmd in ["pomoc","p"]:actorcommands.showhelp(actor)
-        if cmd in ["status","st"]:actorcommands.showstatus(actor)
-        if cmd in ["mapa"]:actorcommands.showmap(actor)
-        if cmd in ["powiedz","~"]:actorcommands.say(self.actors.values(), actor, " ".join(args))
-        if cmd in ["polnoc","n"]:actorcommands.move(actor, "n")
-        if cmd in ["poludnie","s"]:actorcommands.move(actor, "s")
-        if cmd in ["wschod","e"]:actorcommands.move(actor, "e")
-        if cmd in ["zachod","w"]:actorcommands.move(actor, "w")
-        if cmd in ["online"]:actorcommands.showonline(self.actors.values(),actor)
+        if cmd in ["wyjdz", "quit"]:actor.client.deactivate()
+        if cmd in ["patrz", "look", "p"]:actorcommands.look(actor)
+        if cmd in ["pomoc", "help", "h"]:actorcommands.showhelp(actor)
+        if cmd in ["status", "st"]:actorcommands.showstatus(actor)
+        if cmd in ["mapa", "map"]:actorcommands.showmap(actor)
+        if cmd in ["powiedz", "say", "~"]:actorcommands.say(self.actors.values(), actor, " ".join(args))
+        if cmd in ["polnoc", "north", "n"]:actorcommands.move(actor, "n")
+        if cmd in ["poludnie", "south", "s"]:actorcommands.move(actor, "s")
+        if cmd in ["wschod", "east", "e"]:actorcommands.move(actor, "e")
+        if cmd in ["zachod", "west", "w"]:actorcommands.move(actor, "w")
+        if cmd in ["online"]:actorcommands.showonline(self.actors.values(), actor)
         #
         actor.send_prompt()
 
