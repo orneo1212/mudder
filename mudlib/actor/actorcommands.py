@@ -31,7 +31,9 @@ def showstatus(actor):
 def showmap(actor):
     """Show map"""
     room=globalroomloader.get_room(actor.location)
-    actor.client.send_cc("\r^YMAPA^~\n")
+    actor.client.send_cc("\r^Y============================^~\n")
+    actor.client.send_cc("\r^Y%s^~\n" % room.name)
+    actor.client.send_cc("\r^Y============================^~\n")
     for line in room.get_representation(actor):
         actor.client.send_cc("\r"+"".join(line)+"\n")
 
@@ -109,11 +111,14 @@ def search(actor):
 
 def enterlocation(actor):
     room=globalroomloader.get_room(actor.location)
+    #warp [posx,posy,locationUUID,destX,destY]
     for warp in room.warps:
         if actor.pos[0]==warp[0] and actor.pos[1]==warp[1]:
             actor.location=warp[2]
             actor.client.send_cc("^g\rWchodzisz.^~\n")
+            actor.pos=[warp[3],warp[4]]
             actor.found_item=False
+            showmap(actor)
             look(actor)
             return
     #not on warp
