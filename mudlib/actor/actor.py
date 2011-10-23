@@ -24,8 +24,11 @@ class Actor:
         self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
         self.found_item=False # does actor found item in area #TODO: reset this on enter other location
 
-    def update(self):
-        pass
+    def update_warrnings(self):
+        if self.water<30:
+            self.send("\r  Jestes spragniony\n")
+        if self.food<30:
+            self.send("\r  Jestes glodny\n")
 
     def onconnect(self):
         pass

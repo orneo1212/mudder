@@ -13,6 +13,8 @@ def look(actor):
     """Show informations about room"""
     room=globalroomloader.get_room(actor.location)
 
+    #show information about location
+    actor.client.send_cc("\r^c%s^~\n" % str(room.name))
     #Show exits
     actor.client.send_cc("\r[ Wyjscia: ^Y")
     for exit in room.exits:
@@ -21,9 +23,8 @@ def look(actor):
         elif exit=="w":actor.client.send_cc("zachod ")
         elif exit=="s":actor.client.send_cc("poludnie ")
     actor.client.send_cc("^~ ]\n")
-    #show information about location
-    actor.client.send_cc("Jestes w ^g%s^~ - ^y%s^~\n" %\
-                         (str(room.name), str(room.desc)))
+    #show desc about location
+    actor.client.send_cc("%s\n" % str(room.desc))
     #show items on the ground
     if len(room.items)>0:
         if len(room.items)>1:

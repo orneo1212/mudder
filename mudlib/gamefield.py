@@ -7,6 +7,7 @@ class GameField:
         self.actors=actors
         self.foodtimer=Timer()
         self.watertimer=Timer()
+        self.warrningtimer=Timer()
 
     def update(self):
         """Update the gamefield"""
@@ -18,6 +19,10 @@ class GameField:
         if self.watertimer.timepassed(1000*10*60):
             for actor in self.actors.values():
                 stats.decrase_water(actor)
+        #update warrnings
+        if self.warrningtimer.timepassed(1000*2*60):
+            for actor in self.actors.values():
+                actor.update_warrnings()
 
         #update actors
         for actor in self.actors.values():
@@ -40,7 +45,7 @@ class GameField:
 
         #Parse commands
         if cmd in ["wyjdz", "quit"]:actor.client.deactivate()
-        if cmd in ["patrz", "look", "p"]:actorcommands.look(actor)
+        if cmd in ["patrz", "look", "l", "p"]:actorcommands.look(actor)
         if cmd in ["pomoc", "help", "h"]:actorcommands.showhelp(actor)
         if cmd in ["status", "st"]:actorcommands.showstatus(actor)
         if cmd in ["powiedz", "say", "~"]:
