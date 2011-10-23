@@ -9,6 +9,7 @@ class Actor:
         self.password=""
         self.login_state=0 # 0: not logged 1: password 2:newcharacter 3: logged in 4: disconnect
         self.newingame=True
+        self.pos=[0,0]
         #RPG Stats
         self.hp=[100, 100] # Health points
         self.mp=[100, 100] # Mana points
