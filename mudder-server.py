@@ -54,7 +54,7 @@ class MudderServer:
                 #get command
                 cmd=client.get_command()
                 if cmd=="":continue # skip empty messages
-                print "DD", client.address, cmd
+                #print "DD", client.address, cmd
                 #If not logged in
                 if actor.login_state!=3:
                     Login(actor, cmd) # do login
