@@ -27,11 +27,15 @@ class GameField:
             args=[]
 
         if cmd=="quit":actor.client.deactivate()
-        if cmd=="look":actorcommands.look(actor)
-        if cmd=="help":actorcommands.showhelp(actor)
-        if cmd=="status":actorcommands.showstatus(actor)
-        if cmd=="map":actorcommands.showmap(actor)
-        if cmd=="say":actorcommands.say(self.actors.values(), actor, " ".join(args))
+        if cmd in ["look","l"]:actorcommands.look(actor)
+        if cmd in ["help","h"]:actorcommands.showhelp(actor)
+        if cmd in ["status","st"]:actorcommands.showstatus(actor)
+        if cmd in ["map"]:actorcommands.showmap(actor)
+        if cmd in ["say","~"]:actorcommands.say(self.actors.values(), actor, " ".join(args))
+        if cmd in ["north","n"]:actorcommands.move(actor, "n")
+        if cmd in ["south","s"]:actorcommands.move(actor, "s")
+        if cmd in ["east","e"]:actorcommands.move(actor, "e")
+        if cmd in ["west","w"]:actorcommands.move(actor, "w")
         #
         actor.send_prompt()
 

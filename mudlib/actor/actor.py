@@ -35,13 +35,22 @@ class Actor:
             print "EE Failed to load character file %s" % self.name
             return
         #load data here
-        self.password=data["password"]
-        self.hp=data["hp"]
-        self.mp=data["mp"]
-        self.str=data["str"]
-        self.int=data["int"]
-        self.vit=data["vit"]
-        self.dex=data["dex"]
+        if data.has_key("pos"):
+            self.pos=data["pos"]
+        if data.has_key("password"):
+            self.password=data["password"]
+        if data.has_key("hp"):
+            self.hp=data["hp"]
+        if data.has_key("mp"):
+            self.mp=data["mp"]
+        if data.has_key("str"):
+            self.str=data["str"]
+        if data.has_key("int"):
+            self.int=data["int"]
+        if data.has_key("vit"):
+            self.vit=data["vit"]
+        if data.has_key("dex"):
+            self.dex=data["dex"]
 
     def savedata(self):
         """Save actor data"""
@@ -56,6 +65,7 @@ class Actor:
         data["int"]=self.int
         data["vit"]=self.vit
         data["dex"]=self.dex
+        data["pos"]=self.pos
 
         try:
             json.dump(data, open(actorfile, "w"), indent=2)
@@ -66,4 +76,4 @@ class Actor:
             return
 
     def send_prompt(self):
-        self.client.send_cc("# ")
+        self.client.send_cc("# ^~")
