@@ -1,3 +1,4 @@
+from mudlib.rooms import globalroomloader
 import json
 import mudlib
 import os
@@ -35,6 +36,9 @@ class Actor:
 
     def ondisconnect(self):
         self.savedata()
+        #Call onleave on the current room
+        room=globalroomloader.get_room(self.location)
+        room.on_leave(self)
 
     def loaddata(self):
         """Load actor data"""
@@ -97,6 +101,6 @@ class Actor:
     def send_prompt(self):
         self.client.send_cc("# ^~")
 
-    def send(self,text):
+    def send(self, text):
         """Send text to client using send_cc"""
         self.client.send_cc(text)

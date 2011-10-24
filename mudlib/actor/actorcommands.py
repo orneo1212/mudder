@@ -36,6 +36,13 @@ def look(actor):
             itemobj=globalitemloader.get_item(item)
             actor.send(str(itemobj.name)+" ")
         actor.send("^~\n")
+    #Show information about players in actor room
+    if len(room.players)>1:
+        actor.send("\r^wSa tutaj inni gracze: ")
+        for player in room.players:
+            if player!=actor:
+                actor.send("^Y%s^~ " % player.name)
+        actor.send("^~\n")
 
 def showstatus(actor):
     """Show actor status"""
@@ -80,9 +87,17 @@ def move(actor, direction):
         actor.client.send_cc("^rNie mozesz isc w tym kierunku.^~\n")
         return True
     else:
+        actor.found_item=False
+        actor.water-=0.1 # decrease water
+        #Call onleave on the current room
+        room=globalroomloader.get_room(actor.location)
+        room.on_leave(actor)
+        #Update actor location
         actor.location=room.exits[direction]
         look(actor)
-        actor.water-=0.1 # decrease water
+        #Call onenter on the next room
+        room=globalroomloader.get_room(actor.location)
+        room.on_enter(actor)
         return False
 
 def showinventory(actor, args):

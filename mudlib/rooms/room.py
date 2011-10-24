@@ -7,3 +7,18 @@ class Room:
         #
         self.exits={} # Exits
         self.items=[] # Items on the ground
+        self.players=[] # list of players in this room
+
+    def on_enter(self,actor):
+        """callback on enter to this location"""
+        self.players.append(actor)
+        for player in self.players:
+            if player!=actor:
+                player.send("\rGracz ^Y%s^~ wszedl do lokacji\n" % actor.name)
+
+    def on_leave(self,actor):
+        """Callback on leave this location"""
+        self.players.remove(actor)
+        for player in self.players:
+            if player!=actor:
+                player.send("\rGracz ^Y%s^~ opuscil lokacje\n" % actor.name)

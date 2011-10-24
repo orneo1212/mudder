@@ -1,6 +1,7 @@
 from mudlib.actions import stats
 from mudlib.actor import actorcommands
 from mudlib.sys.timer import Timer
+from mudlib.rooms import globalroomloader
 
 class GameField:
     def __init__(self, actors):
@@ -29,6 +30,10 @@ class GameField:
             #broadcast about new players
             if actor.newingame and actor.login_state==3:
                 self.broadcast("%s dolaczyl do gry.\n" % actor.name)
+                #Call onenter to the room
+                room=globalroomloader.get_room(actor.location)
+                room.on_enter(actor)
+                #look
                 self.recv(actor, "look") # show info
                 actor.newingame=False
 
