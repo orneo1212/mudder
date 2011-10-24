@@ -98,7 +98,10 @@ def showonline(actors, actor):
 
 def move(actor, direction):
     """move actor in direction"""
-
+    #you can't move if siting
+    if actor.sit:
+        actor.send("\r^rMoze jeszcze na siedzaco mam skakac?^~\n")
+        return
     room=globalroomloader.get_room(actor.location)
 
     err=0

@@ -80,7 +80,7 @@ class Monster:
         count=random.randint(1, drop[2])
         #if chance
         if random.randint(0, 100)<=drop[0]:
-            for count in range(count):
+            for coun in range(count):
                 actor.inventory.append(drop[1])
             item=globalitemloader.get_item(drop[1])
             actor.send("^y\rOtrzymujesz %s x %s.^~\n" % (item.name, count))
