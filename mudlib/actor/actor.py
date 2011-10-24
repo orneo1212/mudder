@@ -187,7 +187,7 @@ class Actor:
             return
 
     def send_prompt(self):
-        self.client.send_cc("# ^~")
+        self.client.send_cc("HP:%s/%s # ^~" % (self.hp[0],self.hp[1]))
 
     def send(self, text):
         """Send text to client using send_cc"""
