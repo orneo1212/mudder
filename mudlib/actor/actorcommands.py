@@ -6,7 +6,7 @@ def showhelp(actor):
     """Show help"""
     actor.client.send_cc("^gPolecenia:\n")
     #commadns listing
-    commands="pomoc, patrz, status, online "
+    commands="pomoc, patrz [naco], status, online "
     actor.send("^Y\rInformacje:^~ %s\n" % commands)
     #
     commands="polnoc, wschod, zachod, poludnie, usiadz, wstan"
