@@ -49,6 +49,7 @@ class Monster:
             if dmg<0:dmg=0
 
             #decrase hp
+            print self.hp
             self.hp[0]-=dmg
             #show actor attack message
             text=random.choice(texts_atk)
@@ -59,6 +60,7 @@ class Monster:
                 text=random.choice(texts_dead)
                 actor.send(text % self.name)
                 actor.in_fight=False
+                actor.target=None
                 #add drop
                 self.give_drop(actor)
                 #remove monster from location

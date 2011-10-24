@@ -29,10 +29,10 @@ class MonsterLoader:
         #newmonster.uuid=data["uuid"]
         newmonster.name=data["name"]
         newmonster.desc=data["desc"]
-        newmonster.hp=data["hp"]
-        newmonster.stats=data["stats"]
+        newmonster.hp=data["hp"][:]
+        newmonster.stats=data["stats"][:]
         newmonster.exp=data["exp"]
-        newmonster.drop=data["drop"]
+        newmonster.drop=data["drop"][:]
         return newmonster
 
     def get_monster(self, uuid):

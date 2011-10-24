@@ -212,6 +212,10 @@ def fight_with_monster(actor, args):
     args=" ".join(args)
 
     for monster in room.monsters:
+        #remove monsters with no hp
+        if monster.hp[0]<=0:
+            room.monsters.remove(monster)
+            continue
         if args.lower() in monster.name.lower():
             actor.target=monster
             monster.defend(actor) # moster start defending

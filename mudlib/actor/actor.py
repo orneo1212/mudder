@@ -107,6 +107,8 @@ class Actor:
         else:
             text=random.choice(texts_dodge)
             self.send(text % monster.name)
+        #send prompt to show hp
+        self.send_prompt()
 
     def update_warrnings(self):
         if self.water<30:
@@ -149,6 +151,9 @@ class Actor:
         #Lose experiance
         self.exp[0]-=int(self.exp[0]*0.10) # lose 10% of exp
         if self.exp[0]<0:self.exp[0]=0
+        #change location
+        room=self.get_room()
+        room.on_leave(self)
         self.location=self.repawnlocation[:]
         #
         self.send_prompt()
