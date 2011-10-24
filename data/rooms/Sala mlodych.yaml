@@ -1,0 +1,14 @@
+#Room
+
+uuid: "ae97b6d290c722114f5631e5aab51c4a"
+
+name: "Sala mlodych"
+
+desc: "Widzisz dosc duza sale. Na bocznych scianach wisza obrazy oraz gdzieniegdzie swieczniki. \nW koncu sali przez otwarte drzwi widzisz las.\nWpisz ^mpomoc^~ aby uzyskac liste polecen."
+
+exits:
+    n: "467fb898baf293e1275e2dcfd5a45f9d"
+
+searchitems: []
+
+monsters: []

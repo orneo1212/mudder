@@ -1,7 +1,7 @@
 from mudlib.monsters import globalmonsterloader
 from mudlib.sys.loaders import get_rooms_files_list
 from room import Room
-import json
+import yaml
 import mudlib
 import os
 
@@ -15,7 +15,7 @@ class RoomLoader:
         for roomfile in get_rooms_files_list():
             roompath=os.path.join(mudlib.rootpath, "data/rooms/%s" % roomfile)
             #try load data
-            try:data=json.load(open(roompath))
+            try:data=yaml.load(open(roompath))
             except Exception, e:
                 print "EE Cannot load room from %s" % roompath
                 print e

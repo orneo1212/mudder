@@ -1,6 +1,6 @@
 from item import Item
 from mudlib.sys.loaders import get_items_files_list
-import json
+import yaml
 import mudlib
 import os
 
@@ -14,7 +14,7 @@ class ItemLoader:
         for itemfile in get_items_files_list():
             itempath=os.path.join(mudlib.rootpath, "data/items/%s" % itemfile)
             #try load data
-            try:data=json.load(open(itempath))
+            try:data=yaml.load(open(itempath))
             except Exception, e:
                 print "EE Cannot load item from %s" % itempath
                 print e

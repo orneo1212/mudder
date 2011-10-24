@@ -1,6 +1,6 @@
 from monster import Monster
 from mudlib.sys.loaders import get_monsters_files_list
-import json
+import yaml
 import mudlib
 import os
 
@@ -14,7 +14,7 @@ class MonsterLoader:
         for monstersfile in get_monsters_files_list():
             monsterspath=os.path.join(mudlib.rootpath, "data/monsters/%s" % monstersfile)
             #try load data
-            try:data=json.load(open(monsterspath))
+            try:data=yaml.load(open(monsterspath))
             except Exception, e:
                 print "EE Cannot load monsters from %s" % monsterspath
                 print e

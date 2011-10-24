@@ -1,0 +1,7 @@
+#Item
+
+uuid: "004"
+name: "Mieso trolla"
+desc: "Dosc smaczne pieczone. Surowe tez mozna zjesc"
+eatreghp: 15
+eatregfood: 5

@@ -13,7 +13,7 @@ def get_rooms_files_list():
     result=[]
     files=os.listdir("data/rooms/")
     for f in files:
-        if f.endswith(".json"):result.append(f)
+        if f.endswith(".yaml"):result.append(f)
     return result
 
 def get_items_files_list():
@@ -21,7 +21,7 @@ def get_items_files_list():
     result=[]
     files=os.listdir("data/items/")
     for f in files:
-        if f.endswith(".json"):result.append(f)
+        if f.endswith(".yaml"):result.append(f)
     return result
 
 def get_monsters_files_list():
@@ -29,5 +29,5 @@ def get_monsters_files_list():
     result=[]
     files=os.listdir("data/monsters/")
     for f in files:
-        if f.endswith(".json"):result.append(f)
+        if f.endswith(".yaml"):result.append(f)
     return result
