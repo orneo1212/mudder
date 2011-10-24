@@ -1,3 +1,4 @@
+from mudlib.items import globalitemloader
 from mudlib.rooms import globalroomloader
 from mudlib.sys.timer import Timer
 import json
@@ -37,6 +38,14 @@ class Actor:
         self.fightimer=Timer()
         #Rest
         self.resttimer=Timer()
+
+    def get_item_by_name(self, partialname):
+        """Return first item (object) from inventory matching given partialname"""
+        for item in self.inventory:
+            itemobj=globalitemloader.get_item(item)
+            if partialname.lower() in itemobj.name.lower():
+                return itemobj
+        return None
 
     def update(self):
         """Update player statistic"""

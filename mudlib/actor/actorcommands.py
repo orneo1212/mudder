@@ -32,28 +32,23 @@ def look(actor, args=[]):
     if len(args)>0:
         args=" ".join(args)
         #Check items on the ground
-        for item in room.items:
-            itemobj=globalitemloader.get_item(item)
-            #show info about matching item/place
-            if args.lower() in itemobj.name.lower():
-                actor.send("\r^y%s^~\n" % itemobj.name)
-                actor.send("\r  %s\n" % itemobj.desc)
-                return
-        #Check items in inventory
-        for item in actor.inventory:
-            itemobj=globalitemloader.get_item(item)
-            #show info about matching item/place
-            if args.lower() in itemobj.name.lower():
-                actor.send("\r^y%s^~\n" % itemobj.name)
-                actor.send("\r  %s\n" % itemobj.desc)
-                return
-        #Check items in inventory
-        for monster in room.monsters:
-            #show info about matching item/place
-            if args.lower() in monster.name.lower():
-                actor.send("\r^y%s^~\n" % monster.name)
-                actor.send("\r  %s\n" % monster.desc)
-                return
+        item=room.get_item_by_name(args)
+        if item:
+            actor.send("\r^y%s^~\n" % item.name)
+            actor.send("\r  %s\n" % item.desc)
+            return
+        #check items from inventory
+        item=actor.get_item_by_name(args)
+        if item:
+            actor.send("\r^y%s^~\n" % item.name)
+            actor.send("\r  %s\n" % item.desc)
+            return
+        #Check monsters in room
+        monster=room.get_monster_by_name(args)
+        if monster:
+            actor.send("\r^y%s^~\n" % monster.name)
+            actor.send("\r  %s\n" % monster.desc)
+            return
         return
     #show information about location
     actor.client.send_cc("\r^c%s^~\n" % str(room.name))
