@@ -49,7 +49,6 @@ class Monster:
             if dmg<0:dmg=0
 
             #decrase hp
-            print self.hp
             self.hp[0]-=dmg
             #show actor attack message
             text=random.choice(texts_atk)

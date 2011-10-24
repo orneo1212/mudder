@@ -27,9 +27,10 @@ class Actor:
         #Survival Stats
         self.food=100.0 # Food if low actor is hungry
         self.water=100.0 # if low then actor is thirsty
-        #
+        #locations
         self.location="r1" # uuid of room where actor is
         self.repawnlocation="r1" # uuid of room where actor respawn
+        #State
         self.found_item=False # does actor found item in area #TODO: reset this on enter other location
         self.sit=False # actor sit True or False
         #Fight
@@ -46,6 +47,15 @@ class Actor:
             if partialname.lower() in itemobj.name.lower():
                 return itemobj
         return None
+
+    def moveto(self, newlocationid, silent=False):
+        """Move player to new location"""
+        room=self.get_room()
+        if not silent:room.on_leave(self)
+        self.location=str(newlocationid)
+        #Call onenter on the next room
+        room=self.get_room()
+        if not silent:room.on_enter(self)
 
     def update(self):
         """Update player statistic"""

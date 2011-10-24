@@ -39,11 +39,8 @@ class GameField:
             #broadcast about new players
             if actor.newingame and actor.login_state==3:
                 self.broadcast("%s dolaczyl do gry.\n" % actor.name)
-                #Call onenter to the room
-                room=globalroomloader.get_room(actor.location)
-                room.on_enter(actor)
-                #look
-                self.recv(actor, "look") # show info
+                actor.moveto(actor.location)
+                actorcommands.look(actor)
                 actor.newingame=False
 
     def recv(self, actor, cmd):

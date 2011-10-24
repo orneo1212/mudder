@@ -124,7 +124,7 @@ def move(actor, direction):
     if actor.sit:
         actor.send("\r^rMoze jeszcze na siedzaco mam skakac?^~\n")
         return
-    room=globalroomloader.get_room(actor.location)
+    room=actor.get_room()
 
     err=0
 
@@ -136,23 +136,17 @@ def move(actor, direction):
     else:
         actor.found_item=False
         actor.water-=0.1 # decrease water
-        #Call onleave on the current room
-        room=globalroomloader.get_room(actor.location)
-        room.on_leave(actor)
         #Update actor location
-        actor.location=room.exits[direction]
+        actor.moveto(room.exits[direction])
         look(actor)
-        #Call onenter on the next room
-        room=globalroomloader.get_room(actor.location)
-        room.on_enter(actor)
         return False
 
 def showinventory(actor, args):
     """Show actor inventory"""
     if len(actor.inventory)==0:
-        actor.client.send_cc("\r^gNic nie masz w plecaku^~\n")
+        actor.client.send_cc("\r^gNic nie masz w plecaku.^~\n")
         return
-    actor.client.send_cc("^Y\rZawartosc twojego plecaka^~\n")
+    actor.client.send_cc("^Y\rZawartosc twojego plecaka:^~\n")
 
     tmpinv=[]
     for item in actor.inventory[:]:
@@ -185,15 +179,14 @@ def pickup(actor, args):
         return
 
     args=" ".join(args)
-    room=globalroomloader.get_room(actor.location)
+    room=room=actor.get_room()
 
-    for item in room.items:
-        itemobj=globalitemloader.get_item(item)
-        if args.lower() in itemobj.name.lower():
-            actor.send("\r^gPodnosisz %s.^~\n" % itemobj.name)
-            actor.inventory.append(item)
-            room.items.remove(item)
-            return
+    itemobj=actor.get_item_by_name(args)
+    if itemobj:
+        actor.send("\r^gPodnosisz %s.^~\n" % itemobj.name)
+        actor.inventory.append(itemobj.uuid)
+        room.items.remove(itemobj.uuid)
+        return
     #there no item with given part of name
     actor.send("\r^rNie lezy tu nic o podanej nazwie.^~\n")
 
@@ -206,13 +199,12 @@ def drop(actor, args):
     args=" ".join(args)
     room=actor.get_room()
 
-    for item in actor.inventory:
-        itemobj=globalitemloader.get_item(item)
-        if args.lower() in itemobj.name.lower():
-            actor.inventory.remove(item)
-            room.items.append(item)
-            actor.send("\r^gWyrzucilesz %s^~\n" % itemobj.name)
-            return
+    itemobj=actor.get_item_by_name(args)
+    if itemobj:
+        actor.inventory.remove(itemobj.uuid)
+        room.items.append(itemobj.uuid)
+        actor.send("\r^gWyrzuciles %s^~\n" % itemobj.name)
+        return
     #there no item with given part of name
     actor.send("\r^rNie masz nic o podanej nazwie.^~\n")
 
@@ -233,15 +225,11 @@ def fight_with_monster(actor, args):
 
     args=" ".join(args)
 
-    for monster in room.monsters:
-        #remove monsters with no hp
-        if monster.hp[0]<=0:
-            room.monsters.remove(monster)
-            continue
-        if args.lower() in monster.name.lower():
-            actor.target=monster
-            monster.defend(actor) # moster start defending
-            return
+    monster=room.get_monster_by_name(args)
+    if monster:
+        actor.target=monster
+        monster.defend(actor) # moster start defending
+        return
     actor.send("^R\r Nie ma tutaj potwora o podanej nazwie.^~\n")
 
 def eatfood(actor, args):
@@ -252,24 +240,23 @@ def eatfood(actor, args):
 
     args=" ".join(args)
 
-    for item in actor.inventory:
-        itemobj=globalitemloader.get_item(item)
-        if args.lower() in itemobj.name.lower():
-            done=False
-            #hp
-            if itemobj.eatreghp:
-                actor.send("^G\rMniam..^~\n")
-                actor.hp[0]+=itemobj.eatreghp
-                done=True
-            #food
-            if itemobj.eatregfood:
-                actor.send("^G\rMniam..^~\n")
-                actor.food+=itemobj.eatregfood
-                done=True
-            #if added stats return
-            if done:
-                actor.inventory.remove(item)
-                return
+    itemobj=actor.get_item_by_name(args)
+    if itemobj:
+        done=False
+        #hp
+        if itemobj.eatreghp:
+            actor.send("^G\rMniam..^~\n")
+            actor.hp[0]+=itemobj.eatreghp
+            done=True
+        #food
+        if itemobj.eatregfood:
+            actor.send("^G\rMniam..^~\n")
+            actor.food+=itemobj.eatregfood
+            done=True
+        #if added stats return
+        if done:
+            actor.inventory.remove(itemobj.uuid)
+            return
     actor.send("^r\rNie masz zjadliwej rzeczu o podanej nazwie^~\n")
     return
 

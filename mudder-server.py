@@ -69,7 +69,7 @@ class MudderServer:
                 self.server.poll()
                 self.processclient()
                 self.gamefield.update()
-        except KeyboardInterrupt,e:self.onexit(e)
+        except KeyboardInterrupt, e:self.onexit(e)
 
     def onexit(self, error):
         print "\rStopping Server..."
