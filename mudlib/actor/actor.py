@@ -28,6 +28,7 @@ class Actor:
         self.water=100.0 # if low then actor is thirsty
         #
         self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
+        self.repawnlocation="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor respawn
         self.found_item=False # does actor found item in area #TODO: reset this on enter other location
         self.sit=False # actor sit True or False
         #Fight
@@ -74,7 +75,7 @@ class Actor:
                     ]
 
         texts_dodge=[
-                    "^R\r bylesz szybszy %s nie trafia cie.^~\n.",
+                    "^R\r bylesz szybszy %s nie trafia cie.^~\n",
                     ]
 
         #calculate dodge
@@ -138,11 +139,17 @@ class Actor:
         self.in_fight=False
         self.target=None
         #
-        self.send("^G\r  RESPAWN  ^~\n")
+        self.send("^G\r/====================\\^~\n")
+        self.send("^G\r  Bogowie Dali ci      ^~\n")
+        self.send("^G\r  kolejna szanse       ^~\n")
+        self.send("^G\r  nie zawiedz ich.     ^~\n")
+        self.send("^G\r\\====================/^~\n")
+        self.send("^G\r Zostales zeslany spowrotem do zywych. ^~\n")
         self.hp[0]=self.hp[1]
         #Lose experiance
         self.exp[0]-=int(self.exp[0]*0.10) # lose 10% of exp
         if self.exp[0]<0:self.exp[0]=0
+        self.location=self.repawnlocation[:]
         #
         self.send_prompt()
 
@@ -181,6 +188,8 @@ class Actor:
             self.food=data["food"]
         if data.has_key("water"):
             self.water=data["water"]
+        if data.has_key("repawnlocation"):
+            self.repawnlocation=data["repawnlocation"]
 
     def savedata(self):
         """Save actor data"""
@@ -201,6 +210,7 @@ class Actor:
         data["inventory"]=self.inventory
         data["food"]=self.food
         data["water"]=self.water
+        data["repawnlocation"]=self.repawnlocation
 
         try:
             json.dump(data, open(actorfile, "w"), indent=2)
