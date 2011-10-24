@@ -18,6 +18,7 @@ class Monster:
 
         texts_atk=[
                    "^G\r zadajesz %s obrazen.^~\n",
+                   "^G\r po wycelowaniu udalo ci sie zranic go odejmujac mu %s zycia.^~\n",
                    ]
 
         texts_dead=[
@@ -26,7 +27,8 @@ class Monster:
                     ]
 
         texts_dodge=[
-                    "^G\r %s byl szybszy nie trafiasz go.^~\n",
+                    "^G\r Pudlo.. %s nie dostal. Ktos mowil ze bedzie latwo?^~\n",
+                    "^G\r bylo blisko jednak %s byl szybszy.^~\n",
                     ]
 
         #calculate dodge

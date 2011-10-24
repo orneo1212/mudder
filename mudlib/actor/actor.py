@@ -138,7 +138,7 @@ class Actor:
         self.target=None
         self.send("^G\r  RESPAWN  ^~\n")
         self.hp[0]=self.hp[1]
-        actor.send_prompt()
+        self.send_prompt()
 
     def loaddata(self):
         """Load actor data"""
