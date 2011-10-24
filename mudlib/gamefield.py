@@ -27,6 +27,9 @@ class GameField:
 
         #update actors
         for actor in self.actors.values():
+
+            actor.update() # update stats
+
             #broadcast about new players
             if actor.newingame and actor.login_state==3:
                 self.broadcast("%s dolaczyl do gry.\n" % actor.name)

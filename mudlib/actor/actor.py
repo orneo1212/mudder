@@ -27,6 +27,18 @@ class Actor:
         self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
         self.found_item=False # does actor found item in area #TODO: reset this on enter other location
 
+    def update(self):
+        """Update player statistic"""
+        #Health
+        if self.hp[0]<0:self.hp=0
+        if self.hp[0]>self.hp[1]:self.hp[0]=self.hp[1]
+        #mana
+        if self.mp[0]<0:self.mp=0
+        if self.mp[0]>self.mp[1]:self.mp[0]=self.mp[1]
+        #Exp gain level
+        if self.exp[0]>self.exp[1]:
+            self.levelup()
+
     def update_warrnings(self):
         if self.water<30:
             self.send("\r  Jestes spragniony\n")
@@ -41,6 +53,12 @@ class Actor:
         #Call onleave on the current room
         room=self.get_room()
         room.on_leave(self)
+
+    def levelup(self):
+        """increase player level and change exp to next level"""
+        self.level+=1
+        self.exp[1]=self.level**2*100
+        self.send("^G\r  Teraz jestes o poziom bardziej doswiadczony.^~\n")
 
     def loaddata(self):
         """Load actor data"""
