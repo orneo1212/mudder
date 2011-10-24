@@ -63,7 +63,7 @@ class Monster:
                 self.give_drop(actor)
                 #remove monster from location
                 room=actor.get_room()
-                room.monsters.remove(self)
+                if self in room.monsters:room.monsters.remove(self)
                 #add experiance
                 actor.exp[0]+=self.exp
                 actor.send("^G\rOtrzymalesz %s doswiadczenia.^~\n" % self.exp)
