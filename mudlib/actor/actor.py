@@ -3,6 +3,7 @@ from mudlib.sys.timer import Timer
 import json
 import mudlib
 import os
+import random
 
 class Actor:
     def __init__(self, client):
@@ -17,10 +18,10 @@ class Actor:
         self.exp=[0, 100] # experiance poinst and to next level points
         self.hp=[100, 100] # Health points
         self.mp=[100, 100] # Mana points
-        self.str=10 # Strength
-        self.int=10 # Inteligence
-        self.vit=10 # Vitality
-        self.dex=10 # Dexterity
+        self.str=2 # Strength
+        self.int=2 # Inteligence
+        self.vit=2 # Vitality
+        self.dex=2 # Dexterity
         #Survival Stats
         self.food=100.0 # Food if low actor is hungry
         self.water=100.0 # if low then actor is thirsty
@@ -36,7 +37,7 @@ class Actor:
     def update(self):
         """Update player statistic"""
         #Health
-        if self.hp[0]<0:self.hp=0
+        if self.hp[0]<0:self.hp[0]=0
         if self.hp[0]>self.hp[1]:self.hp[0]=self.hp[1]
         #mana
         if self.mp[0]<0:self.mp=0
@@ -49,11 +50,49 @@ class Actor:
             self.defend(self.target) # actor start defend against monster
             self.target.defend(self)
 
-    def defend(self,monster):
+    def defend(self, monster):
         """Defend against monster"""
-        dmg=1
-        self.send("^G\r  a masz ty... Zadajesz %s obrazen.^~\n" % dmg)
-        monster.hp[0]-=dmg
+        texts_atk=[
+                   "^R\r %s zadaje ci %s obrazen.^~\n",
+                   ]
+
+        texts_dead=[
+                    "^R\r i po tym uderzeniu padasz martwy na ziemie.^~\n",
+                    "^R\r i to juz koniec twojej wizyty na tym swiecie.^~\n",
+                    ]
+
+        texts_dodge=[
+                    "^R\r bylesz szybszy %s nie trafia cie.^~\n.",
+                    ]
+
+        #calculate dodge
+        dodge=float(monster.stats[2])/float(self.dex)
+        dodge+=random.randint(-2,2)
+        dodge=dodge<0
+
+        if not dodge:
+            #Calculate monster damange
+            dmg=float(monster.stats[0])/float(self.dex)*monster.stats[0]
+            dmg=int(dmg)
+            dmg+=random.randint(-5,5)
+            if dmg<0:dmg=0
+
+            #decrase hp
+            self.hp[0]-=dmg
+            #show monster attack message
+            text=random.choice(texts_atk)
+            self.send(text % (monster.name, dmg))
+            #check actor dead
+            if self.hp[0]<=0:
+                #actor die
+                self.in_fight=False
+                text=random.choice(texts_dead)
+                self.send(text)
+                self.ondead()
+        #Dodge
+        else:
+            text=random.choice(texts_dodge)
+            self.send(text % monster.name)
 
     def update_warrnings(self):
         if self.water<30:
@@ -75,6 +114,13 @@ class Actor:
         self.level+=1
         self.exp[1]=self.level**2*100
         self.send("^G\r  Teraz jestes o poziom bardziej doswiadczony.^~\n")
+
+    def ondead(self):
+        """On dead"""
+        self.in_fight=False
+        self.target=None
+        self.send("^G\r  RESPAWN  ^~\n")
+        self.hp[0]=self.hp[1]
 
     def loaddata(self):
         """Load actor data"""

@@ -46,7 +46,7 @@ class GameField:
         #parse arguments and command
         if len(cmd)>1:
             args=cmd[1:]
-            cmd=cmd[0]
+            cmd=cmd[0].lower()
         else:
             cmd=cmd[0]
             args=[]

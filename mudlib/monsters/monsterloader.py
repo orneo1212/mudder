@@ -25,6 +25,8 @@ class MonsterLoader:
             newmonster.name=data["name"]
             newmonster.desc=data["desc"]
             newmonster.hp=data["hp"]
+            newmonster.stats=data["stats"]
+            newmonster.exp=data["exp"]
             self.monsters[newmonster.uuid]=newmonster
 
     def get_monster(self, uuid):

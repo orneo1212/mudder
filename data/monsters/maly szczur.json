@@ -2,5 +2,7 @@
 "uuid":"001",
 "name":"Maly szczur",
 "desc":"Maly wstretny szczur.",
-"hp":[5,5]
+"hp":[5,5],
+"stats":[3,3,10],
+"exp":6
 }

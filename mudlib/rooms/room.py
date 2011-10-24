@@ -20,7 +20,8 @@ class Room:
 
     def on_leave(self,actor):
         """Callback on leave this location"""
-        self.players.remove(actor)
+        if actor in self.players:self.players.remove(actor)
+        actor.in_fight=False
         for player in self.players:
             if player!=actor:
                 player.send("\rGracz ^Y%s^~ opuscil lokacje\n" % actor.name)
