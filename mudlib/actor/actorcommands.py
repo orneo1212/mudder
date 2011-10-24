@@ -43,6 +43,12 @@ def look(actor):
             if player!=actor:
                 actor.send("^Y%s^~ " % player.name)
         actor.send("^~\n")
+    #Show information about monsters in actor room
+    if len(room.monsters)>0:
+        actor.send("\r^RTutaj sa wrogie potwory. Badz ostrozny: ")
+        for monster in room.monsters: # for each monster object in room
+            actor.send("%s, " % str(monster.name))
+        actor.send("^~\n")
 
 def showstatus(actor):
     """Show actor status"""
