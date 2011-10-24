@@ -47,17 +47,18 @@ def look(actor):
 def showstatus(actor):
     """Show actor status"""
     actor.client.send_cc("^YSTATUS^~\n")
-    actor.client.send_cc("  ^YImie:^~ %s\n" % actor.name)
-    actor.client.send_cc("  ^YHP:^~ %s\n" % actor.hp)
-    actor.client.send_cc("  ^YMP:^~ %s\n" % actor.mp)
-    actor.client.send_cc("  ^YSila:^~ %s\n" % actor.str)
-    actor.client.send_cc("  ^YInteligencja:^~ %s\n" % actor.int)
-    actor.client.send_cc("  ^YWitalnosc:^~ %s\n" % actor.vit)
-    actor.client.send_cc("  ^YZrecznosc:^~ %s\n" % actor.dex)
-    actor.client.send_cc("  ^YJedzenie:^~ %s %%\n" % int(actor.food))
-    actor.client.send_cc("  ^YWoda:^~ %s %%\n" % int(actor.water))
+    actor.client.send_cc("  ^BImie:^~ %s\n" % actor.name)
+    actor.client.send_cc("  ^BPoziom:^~ %s\n" % actor.level)
+    actor.client.send_cc("  ^BDoswiadczenie:^~ %s\n" % actor.exp)
+    actor.client.send_cc("  ^BHP:^~ %s\n" % actor.hp)
+    actor.client.send_cc("  ^BMP:^~ %s\n" % actor.mp)
+    actor.client.send_cc("  ^BSila:^~ %s\n" % actor.str)
+    actor.client.send_cc("  ^BInteligencja:^~ %s\n" % actor.int)
+    actor.client.send_cc("  ^BWitalnosc:^~ %s\n" % actor.vit)
+    actor.client.send_cc("  ^BZrecznosc:^~ %s\n" % actor.dex)
+    actor.client.send_cc("  ^BJedzenie:^~ %s %%\n" % int(actor.food))
+    actor.client.send_cc("  ^BWoda:^~ %s %%\n" % int(actor.water))
     #actor.client.send_cc("  ^Y-------------------------^~\n")
-    #actor.client.send_cc("  ^YPozycja:^~ %s\n" % actor.pos)
 
 def say(actors, actor, text):
     """Say text"""

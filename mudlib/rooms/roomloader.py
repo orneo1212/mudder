@@ -1,3 +1,4 @@
+from mudlib.monsters import globalmonsterloader
 from mudlib.sys.loaders import get_rooms_files_list
 from room import Room
 import json
@@ -26,6 +27,10 @@ class RoomLoader:
             newroom.desc=data["desc"]
             newroom.exits=data["exits"] #restore warps
             newroom.searchitems=data["searchitems"]
+            #Load monsters
+            for monster in data["monsters"]:
+                newmon=globalmonsterloader.get_monster(monster)
+                newroom.monsters.append(newmon)
 
             #for place in places:
             #    # [X,Y,roomUuid]

@@ -23,3 +23,11 @@ def get_items_files_list():
     for f in files:
         if f.endswith(".json"):result.append(f)
     return result
+
+def get_monsters_files_list():
+    """Return list of monsters names (filenames)"""
+    result=[]
+    files=os.listdir("data/monsters/")
+    for f in files:
+        if f.endswith(".json"):result.append(f)
+    return result

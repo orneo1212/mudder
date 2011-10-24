@@ -12,6 +12,8 @@ class Actor:
         self.newingame=True
         self.inventory=[] # list of items
         #RPG Stats
+        self.level=1
+        self.exp=[0,100] # experiance poinst and to next level points
         self.hp=[100, 100] # Health points
         self.mp=[100, 100] # Mana points
         self.str=10 # Strength
@@ -55,6 +57,10 @@ class Actor:
             self.password=data["password"]
         if data.has_key("hp"):
             self.hp=data["hp"]
+        if data.has_key("level"):
+            self.level=data["level"]
+        if data.has_key("exp"):
+            self.exp=data["exp"]
         if data.has_key("mp"):
             self.mp=data["mp"]
         if data.has_key("str"):
@@ -79,6 +85,8 @@ class Actor:
 
         data={}
         data["password"]=self.password
+        data["level"]=self.level
+        data["exp"]=self.exp
         data["hp"]=self.hp
         data["mp"]=self.hp
         data["str"]=self.str

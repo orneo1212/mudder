@@ -9,6 +9,7 @@ class Room:
         self.items=[] # Items on the ground
         self.searchitems=[] # items to find with search [uuid,chance]
         self.players=[] # list of players in this room
+        self.monsters=[] # List of monsters in this area (objects)
 
     def on_enter(self,actor):
         """callback on enter to this location"""
