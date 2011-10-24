@@ -60,6 +60,7 @@ class Monster:
                 #add experiance
                 actor.exp[0]+=self.exp
                 actor.send("^G\rOtrzymalesz %s doswiadczenia.^~\n" % self.exp)
+                actor.send_prompt()
         #Dodge
         else:
             text=random.choice(texts_dodge)

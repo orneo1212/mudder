@@ -92,6 +92,7 @@ class Actor:
             if self.hp[0]<=0:
                 #actor die
                 self.in_fight=False
+                self.target=None
                 text=random.choice(texts_dead)
                 self.send(text)
                 self.ondead()
@@ -131,6 +132,7 @@ class Actor:
         self.target=None
         self.send("^G\r  RESPAWN  ^~\n")
         self.hp[0]=self.hp[1]
+        actor.send_prompt()
 
     def loaddata(self):
         """Load actor data"""
