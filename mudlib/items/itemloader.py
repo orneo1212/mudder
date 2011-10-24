@@ -21,9 +21,16 @@ class ItemLoader:
                 continue
             #create room
             newitem=Item()
-            newitem.uuid=data["uuid"]
-            newitem.name=data["name"]
-            newitem.desc=data["desc"]
+            if data.has_key("uuid"):
+                newitem.uuid=data["uuid"]
+            if data.has_key("name"):
+                newitem.name=data["name"]
+            if data.has_key("desc"):
+                newitem.desc=data["desc"]
+            if data.has_key("eatreghp"):
+                newitem.eatreghp=data["eatreghp"]
+            if data.has_key("eatregfood"):
+                newitem.eatregfood=data["eatregfood"]
             self.items[newitem.uuid]=newitem
 
     def get_item(self, uuid):

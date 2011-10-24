@@ -33,6 +33,9 @@ class Monster:
         dodge+=random.randint(-2,2)
         dodge=dodge<0
 
+        #decrase actor food
+        actor.food-=0.1
+
         if not dodge:
             #Calculate actor damange
             dmg=float(actor.str)/float(self.stats[1])*actor.str
@@ -56,6 +59,7 @@ class Monster:
                 room.monsters.remove(self)
                 #add experiance
                 actor.exp[0]+=self.exp
+                actor.send("^G\rOtrzymalesz %s doswiadczenia.^~\n" % self.exp)
         #Dodge
         else:
             text=random.choice(texts_dodge)

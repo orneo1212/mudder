@@ -73,6 +73,8 @@ class GameField:
             actorcommands.drop(actor, args)
         if cmd in ["zabij", "kill"]:
             actorcommands.fight_with_monster(actor, args)
+        if cmd in ["zjedz","jedz", "eat"]:
+            actorcommands.eatfood(actor, args)
         #
         actor.send_prompt()
 

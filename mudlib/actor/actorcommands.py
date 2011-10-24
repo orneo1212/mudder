@@ -12,7 +12,7 @@ def showhelp(actor):
     commands="polnoc, wschod, zachod, poludnie "
     actor.send("^Y\rPoruszanie:^~ %s\n" % commands)
     #
-    commands="podnies <nazwa>, upusc <nazwa>, szukaj, inwentarz "
+    commands="podnies <nazwa>, upusc <nazwa>, szukaj, inwentarz, zjedz <nazwa> "
     actor.send("^Y\rPrzedmioty:^~ %s\n" % commands)
     #
     commands="powiedz <tekst>"
@@ -209,3 +209,32 @@ def fight_with_monster(actor,args):
             monster.defend(actor) # moster start defending
             return
     actor.send("^R\r Nie ma tutaj potwora o podanej nazwie.^~\n")
+
+def eatfood(actor,args):
+    """Eat food"""
+    if len(args)==0:
+        actor.send("\r^rZjesc co?^~\n")
+        return
+
+    args=" ".join(args)
+
+    for item in actor.inventory:
+        itemobj=globalitemloader.get_item(item)
+        if args.lower() in itemobj.name.lower():
+            done=False
+            #hp
+            if itemobj.eatreghp:
+                actor.send("^G\rMniam..^~\n")
+                actor.hp[0]+=itemobj.eatreghp
+                done=True
+            #food
+            if itemobj.eatregfood:
+                actor.send("^G\rMniam..^~\n")
+                actor.food+=itemobj.eatregfood
+                done=True
+            #if added stats return
+            if done:
+                actor.inventory.remove(item)
+                return
+    actor.send("^R\rNie masz zjadliwej rzeczu o podanej nazwie^~\n")
+    return
