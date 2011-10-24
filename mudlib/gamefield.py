@@ -59,7 +59,7 @@ class GameField:
 
         #Parse commands
         if cmd in ["wyjdz", "quit"]:actor.client.deactivate()
-        if cmd in ["patrz", "look", "l", "p"]:actorcommands.look(actor)
+        if cmd in ["patrz", "look", "l", "p"]:actorcommands.look(actor, args)
         if cmd in ["pomoc", "help", "h"]:actorcommands.showhelp(actor)
         if cmd in ["status", "st"]:actorcommands.showstatus(actor)
         if cmd in ["powiedz", "say", "~"]:
@@ -71,9 +71,9 @@ class GameField:
         if cmd in ["szukaj", "search"]:actorcommands.search(actor)
         if cmd in ["inwentarz", "inw", "inv", "inventory"]:
             actorcommands.showinventory(actor, args)
-        if cmd in ["usiadz","sit"]:
+        if cmd in ["usiadz", "sit"]:
             actorcommands.sit(actor)
-        if cmd in ["wstan","stand"]:
+        if cmd in ["wstan", "stand"]:
             actorcommands.stand(actor)
         if cmd in ["online"]:
             actorcommands.showonline(self.actors.values(), actor)
