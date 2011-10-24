@@ -24,7 +24,7 @@ def showhelp(actor):
     commands="wyjdz "
     actor.send("^Y\rInne:^~ %s\n" % commands)
 
-def look(actor, args):
+def look(actor, args=[]):
     """Show informations about room"""
     room=actor.get_room()
 

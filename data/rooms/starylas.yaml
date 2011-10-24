@@ -1,12 +1,12 @@
 #Room
 
-uuid: "467fb898baf293e1275e2dcfd5a45f9d"
+uuid: "r2"
 name: "Stary las"
 desc: "Przed toba rozciaga sie ogromny stary las. W oddali dostrzegasz jakies zrodlo swiatla. \n Dzieki niemu odnajdujesz prowadzaca na wschod sciezke."
 
 exits:
-    s: "ae97b6d290c722114f5631e5aab51c4a"
-    e: "df0dab07f7febc975b85df36b24172c5"
+    s: "r1"
+    e: "r3"
 
 searchitems:
     - ["002",30]

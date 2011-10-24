@@ -27,8 +27,8 @@ class Actor:
         self.food=100.0 # Food if low actor is hungry
         self.water=100.0 # if low then actor is thirsty
         #
-        self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
-        self.repawnlocation="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor respawn
+        self.location="r1" # uuid of room where actor is
+        self.repawnlocation="r1" # uuid of room where actor respawn
         self.found_item=False # does actor found item in area #TODO: reset this on enter other location
         self.sit=False # actor sit True or False
         #Fight
