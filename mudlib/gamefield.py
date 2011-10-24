@@ -1,17 +1,23 @@
+from mudlib.actions import monsters_act
 from mudlib.actions import stats
 from mudlib.actor import actorcommands
-from mudlib.sys.timer import Timer
 from mudlib.rooms import globalroomloader
+from mudlib.sys.timer import Timer
 
 class GameField:
     def __init__(self, actors):
         self.actors=actors
         self.foodtimer=Timer()
         self.watertimer=Timer()
+        self.monstertimer=Timer()
         self.warrningtimer=Timer()
 
     def update(self):
         """Update the gamefield"""
+        #update spawners
+        if self.monstertimer.timepassed(1000*60):
+            for actor in self.actors.values():
+                monsters_act.spawn_new_monsters(actor.get_room())
         #decrase food
         if self.foodtimer.timepassed(1000*5*60):
             for actor in self.actors.values():
@@ -73,7 +79,7 @@ class GameField:
             actorcommands.drop(actor, args)
         if cmd in ["zabij", "kill"]:
             actorcommands.fight_with_monster(actor, args)
-        if cmd in ["zjedz","jedz", "eat"]:
+        if cmd in ["zjedz", "jedz", "eat"]:
             actorcommands.eatfood(actor, args)
         #
         actor.send_prompt()

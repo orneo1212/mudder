@@ -6,7 +6,7 @@ import os
 
 class MonsterLoader:
     def __init__(self):
-        self.monsters={}
+        self.mosters_raw_data={} # raw data to make copy
 
     def load_monsters(self):
         """Load monsters"""
@@ -19,19 +19,24 @@ class MonsterLoader:
                 print "EE Cannot load monsters from %s" % monsterspath
                 print e
                 continue
-            #create monster
-            newmonster=Monster(data["uuid"])
-            #newmonster.uuid=data["uuid"]
-            newmonster.name=data["name"]
-            newmonster.desc=data["desc"]
-            newmonster.hp=data["hp"]
-            newmonster.stats=data["stats"]
-            newmonster.exp=data["exp"]
-            self.monsters[newmonster.uuid]=newmonster
+
+            self.mosters_raw_data[data["uuid"]]=data
+
+    def rebuild_monster(self, data):
+        """Create new monster from data about monster"""
+        #create monster
+        newmonster=Monster(data["uuid"])
+        #newmonster.uuid=data["uuid"]
+        newmonster.name=data["name"]
+        newmonster.desc=data["desc"]
+        newmonster.hp=data["hp"]
+        newmonster.stats=data["stats"]
+        newmonster.exp=data["exp"]
+        return newmonster
 
     def get_monster(self, uuid):
         """Return monster by uuid"""
         try:
-            return self.monsters[uuid]
+            return self.rebuild_monster(self.mosters_raw_data[uuid])
         except:print "EE Monster not exist but requested UUID=%s" % uuid
         return Monster(uuid)

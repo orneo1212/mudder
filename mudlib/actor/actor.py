@@ -16,8 +16,8 @@ class Actor:
         #RPG Stats
         self.level=1
         self.exp=[0, 100] # experiance poinst and to next level points
-        self.hp=[100, 100] # Health points
-        self.mp=[100, 100] # Mana points
+        self.hp=[30, 30] # Health points
+        self.mp=[20, 20] # Mana points
         self.str=2 # Strength
         self.int=2 # Inteligence
         self.vit=2 # Vitality
@@ -42,13 +42,19 @@ class Actor:
         #mana
         if self.mp[0]<0:self.mp=0
         if self.mp[0]>self.mp[1]:self.mp[0]=self.mp[1]
+        #water
+        if self.water<0:self.water=0
+        if self.water>100:self.water=100
+        #food
+        if self.food<0:self.food=0
+        if self.food>100:self.food=100
         #Exp gain level
         if self.exp[0]>self.exp[1]:
             self.levelup()
         # Continue fight
         if self.in_fight and self.target and self.fightimer.timepassed(1500):
             self.defend(self.target) # actor start defend against monster
-            self.target.defend(self)
+            if self.target:self.target.defend(self)
 
     def defend(self, monster):
         """Defend against monster"""
@@ -67,14 +73,14 @@ class Actor:
 
         #calculate dodge
         dodge=float(monster.stats[2])/float(self.dex)
-        dodge+=random.randint(-2,2)
+        dodge+=random.randint(-2, 2)
         dodge=dodge<0
 
         if not dodge:
             #Calculate monster damange
             dmg=float(monster.stats[0])/float(self.dex)*monster.stats[0]
             dmg=int(dmg)
-            dmg+=random.randint(-5,5)
+            dmg+=random.randint(-5, 5)
             if dmg<0:dmg=0
 
             #decrase hp
@@ -113,6 +119,10 @@ class Actor:
         """increase player level and change exp to next level"""
         self.level+=1
         self.exp[1]=self.level**2*100
+        self.hp[1] = int(self.hp[1]+self.hp[1]*0.1)
+        self.mp[1] = int(self.mp[1]+self.mp[1]*0.1)
+        self.hp[0]=self.hp[1]
+        self.mp[0]=self.mp[1]
         self.send("^G\r  Teraz jestes o poziom bardziej doswiadczony.^~\n")
 
     def ondead(self):
@@ -187,7 +197,7 @@ class Actor:
             return
 
     def send_prompt(self):
-        self.client.send_cc("HP:%s/%s # ^~" % (self.hp[0],self.hp[1]))
+        self.client.send_cc("HP:%s/%s # ^~" % (self.hp[0], self.hp[1]))
 
     def send(self, text):
         """Send text to client using send_cc"""

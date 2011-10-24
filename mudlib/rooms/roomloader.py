@@ -16,7 +16,7 @@ class RoomLoader:
             roompath=os.path.join(mudlib.rootpath, "data/rooms/%s" % roomfile)
             #try load data
             try:data=json.load(open(roompath))
-            except Exception,e:
+            except Exception, e:
                 print "EE Cannot load room from %s" % roompath
                 print e
                 continue
@@ -31,6 +31,7 @@ class RoomLoader:
             for monster in data["monsters"]:
                 newmon=globalmonsterloader.get_monster(monster)
                 newroom.monsters.append(newmon)
+                newroom.possible_monsters.append(monster)
 
             #for place in places:
             #    # [X,Y,roomUuid]
