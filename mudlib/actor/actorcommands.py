@@ -142,7 +142,7 @@ def search(actor):
 
     if len(room.searchitems)>0:
         item=random.choice(room.searchitems) # get random item
-    else:item=["",-1] # 0% chance to find (if cant find any item in this loc)
+    else:item=["", -1] # 0% chance to find (if cant find any item in this loc)
 
     number=random.randint(0, 100)
     if number<=item[1] and not actor.found_item:
@@ -153,7 +153,7 @@ def search(actor):
         actor.inventory.append(item[0])
     else:actor.client.send_cc("^R\rNic nie znalazles^~\n")
 
-def pickup(actor,args):
+def pickup(actor, args):
     """pickup item from ground"""
     if len(args)==0:
         actor.send("\r^rPodniesc co?^~\n")
@@ -172,7 +172,7 @@ def pickup(actor,args):
     #there no item with given part of name
     actor.send("\r^rNie lezy tu nic o podanej nazwie.^~\n")
 
-def drop(actor,args):
+def drop(actor, args):
     """drop item into ground"""
     if len(args)==0:
         actor.send("\r^rUpuscic co?^~\n")
@@ -191,7 +191,7 @@ def drop(actor,args):
     #there no item with given part of name
     actor.send("\r^rNie masz nic o podanej nazwie.^~\n")
 
-def fight_with_monster(actor,args):
+def fight_with_monster(actor, args):
     """Fight with monster by given name"""
     room=actor.get_room()
     #you can't fight if siting
@@ -215,7 +215,7 @@ def fight_with_monster(actor,args):
             return
     actor.send("^R\r Nie ma tutaj potwora o podanej nazwie.^~\n")
 
-def eatfood(actor,args):
+def eatfood(actor, args):
     """Eat food"""
     if len(args)==0:
         actor.send("\r^rZjesc co?^~\n")

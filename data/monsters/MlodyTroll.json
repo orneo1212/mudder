@@ -1,0 +1,9 @@
+{
+"uuid":"002",
+"name":"Mlody troll",
+"desc":"Nauczony od malosci aby zabijac. Dobry w ataku, w obronie kiepski.",
+"hp":[30,30],
+"stats":[3,2,2],
+"exp":40,
+"drop": [[75,"004",2]]
+}

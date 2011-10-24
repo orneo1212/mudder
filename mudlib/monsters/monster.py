@@ -1,3 +1,4 @@
+from mudlib.items import globalitemloader
 import random
 
 class Monster:
@@ -8,6 +9,7 @@ class Monster:
         self.hp=[5, 5]
         self.stats=[] # [attack,defence, speed]
         self.exp=0 # how much exp actor gain when monster die
+        self.drop=[] # Drop list [chance, itemuuid, maxdropcount]
 
     def defend(self, actor):
         """Defenf against actor"""
@@ -33,7 +35,7 @@ class Monster:
 
         #calculate dodge
         dodge=float(actor.dex)/float(self.stats[2])
-        dodge+=random.randint(-2,2)
+        dodge+=random.randint(-2, 2)
         dodge=dodge<0
 
         #decrase actor food
@@ -43,7 +45,7 @@ class Monster:
             #Calculate actor damange
             dmg=float(actor.str)/float(self.stats[1])*actor.str
             dmg=int(dmg)
-            dmg+=random.randint(-5,5)
+            dmg+=random.randint(-5, 5)
             if dmg<0:dmg=0
 
             #decrase hp
@@ -57,6 +59,8 @@ class Monster:
                 text=random.choice(texts_dead)
                 actor.send(text % self.name)
                 actor.in_fight=False
+                #add drop
+                self.give_drop(actor)
                 #remove monster from location
                 room=actor.get_room()
                 room.monsters.remove(self)
@@ -68,3 +72,15 @@ class Monster:
         else:
             text=random.choice(texts_dodge)
             actor.send(text % self.name)
+
+    def give_drop(self, actor):
+        """give drop items"""
+        if len(self.drop)==0:return
+        drop=random.choice(self.drop)
+        count=random.randint(1, drop[2])
+        #if chance
+        if random.randint(0, 100)<=drop[0]:
+            for count in range(count):
+                actor.inventory.append(drop[1])
+            item=globalitemloader.get_item(drop[1])
+            actor.send("^y\rOtrzymujesz %s x %s.^~\n" % (item.name, count))

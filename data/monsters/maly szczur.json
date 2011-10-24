@@ -4,5 +4,6 @@
 "desc":"Maly wstretny szczur.",
 "hp":[5,5],
 "stats":[3,3,10],
-"exp":10
+"exp":10,
+"drop": [[12,"003",3]]
 }

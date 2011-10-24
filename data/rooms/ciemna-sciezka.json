@@ -1,0 +1,10 @@
+{
+"uuid":"df0dab07f7febc975b85df36b24172c5",
+"name":"Ciemna sciezka",
+"desc":"Dookola las. Widac w oddali zrodlo swiatla, tym razem bardziej wyraznie. Czujesz smrod zgnilego miesa. W poblizu napewno sa jakies trole.",
+"exits":{
+    "w":"467fb898baf293e1275e2dcfd5a45f9d"
+    },
+"searchitems":[["002",45],["001",8]],
+"monsters":["001","002"]
+}

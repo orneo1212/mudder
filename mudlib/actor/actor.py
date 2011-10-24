@@ -55,7 +55,7 @@ class Actor:
         if self.food<0:self.food=0
         if self.food>100:self.food=100
         #Exp gain level
-        if self.exp[0]>self.exp[1]:
+        if self.exp[0]>=self.exp[1]:
             self.levelup()
         # Continue fight
         if self.in_fight and self.target and self.fightimer.timepassed(1500):
@@ -134,10 +134,16 @@ class Actor:
 
     def ondead(self):
         """On dead"""
+        #Cancel fight
         self.in_fight=False
         self.target=None
+        #
         self.send("^G\r  RESPAWN  ^~\n")
         self.hp[0]=self.hp[1]
+        #Lose experiance
+        self.exp[0]-=int(self.exp[0]*0.10) # lose 10% of exp
+        if self.exp[0]<0:self.exp[0]=0
+        #
         self.send_prompt()
 
     def loaddata(self):
