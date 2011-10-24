@@ -116,12 +116,12 @@ def showinventory(actor, args):
 
 def search(actor):
     """Search for item on the ground"""
-    items=[
-           #itemuuid, chance
-           ["001", 1],
-           ["002", 30],
-           ]
-    item=random.choice(items)
+    room=actor.get_room()
+
+    if len(room.searchitems)>0:
+        item=random.choice(room.searchitems) # get random item
+    else:item=["",-1] # 0% chance to find (if cant find any item in this loc)
+
     number=random.randint(0, 100)
     if number<=item[1] and not actor.found_item:
         actor.found_item=True # Actor found item in this area
@@ -157,7 +157,7 @@ def drop(actor,args):
         return
 
     args=" ".join(args)
-    room=globalroomloader.get_room(actor.location)
+    room=actor.get_room()
 
     for item in actor.inventory:
         itemobj=globalitemloader.get_item(item)

@@ -25,6 +25,7 @@ class RoomLoader:
             newroom.name=data["name"]
             newroom.desc=data["desc"]
             newroom.exits=data["exits"] #restore warps
+            newroom.searchitems=data["searchitems"]
 
             #for place in places:
             #    # [X,Y,roomUuid]

@@ -37,7 +37,7 @@ class Actor:
     def ondisconnect(self):
         self.savedata()
         #Call onleave on the current room
-        room=globalroomloader.get_room(self.location)
+        room=self.get_room()
         room.on_leave(self)
 
     def loaddata(self):
@@ -104,3 +104,8 @@ class Actor:
     def send(self, text):
         """Send text to client using send_cc"""
         self.client.send_cc(text)
+
+    def get_room(self):
+        """Return location where player is"""
+        room=globalroomloader.get_room(self.location)
+        return room

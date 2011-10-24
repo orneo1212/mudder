@@ -7,6 +7,7 @@ class Room:
         #
         self.exits={} # Exits
         self.items=[] # Items on the ground
+        self.searchitems=[] # items to find with search [uuid,chance]
         self.players=[] # list of players in this room
 
     def on_enter(self,actor):
