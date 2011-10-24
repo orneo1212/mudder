@@ -1,4 +1,5 @@
 from mudlib.rooms import globalroomloader
+from mudlib.sys.timer import Timer
 import json
 import mudlib
 import os
@@ -13,7 +14,7 @@ class Actor:
         self.inventory=[] # list of items
         #RPG Stats
         self.level=1
-        self.exp=[0,100] # experiance poinst and to next level points
+        self.exp=[0, 100] # experiance poinst and to next level points
         self.hp=[100, 100] # Health points
         self.mp=[100, 100] # Mana points
         self.str=10 # Strength
@@ -26,6 +27,11 @@ class Actor:
         #
         self.location="ae97b6d290c722114f5631e5aab51c4a" # uuid of room where actor is
         self.found_item=False # does actor found item in area #TODO: reset this on enter other location
+        self.sit=False # actor sit True or False
+        #Fight
+        self.in_fight=False # does actor is in fight
+        self.target=None # Fight target
+        self.fightimer=Timer()
 
     def update(self):
         """Update player statistic"""
@@ -38,6 +44,16 @@ class Actor:
         #Exp gain level
         if self.exp[0]>self.exp[1]:
             self.levelup()
+        # Continue fight
+        if self.in_fight and self.target and self.fightimer.timepassed(1500):
+            self.defend(self.target) # actor start defend against monster
+            self.target.defend(self)
+
+    def defend(self,monster):
+        """Defend against monster"""
+        dmg=1
+        self.send("^G\r  a masz ty... Zadajesz %s obrazen.^~\n" % dmg)
+        monster.hp[0]-=dmg
 
     def update_warrnings(self):
         if self.water<30:

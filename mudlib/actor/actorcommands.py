@@ -190,3 +190,22 @@ def drop(actor,args):
             return
     #there no item with given part of name
     actor.send("\r^rNie masz nic o podanej nazwie.^~\n")
+
+def fight_with_monster(actor,args):
+    """Fight with monster by given name"""
+    room=actor.get_room()
+    if len(args)==0:
+        actor.send("\r^rZabic kogo?^~\n")
+        return
+    if len(room.monsters)==0:
+        actor.send("\r^rTu nie ma kogo zabijac.^~\n")
+        return
+
+    args=" ".join(args)
+
+    for monster in room.monsters:
+        if args.lower() in monster.name.lower():
+            actor.target=monster
+            monster.defend(actor) # moster start defending
+            return
+    actor.send("^R\r Nie ma tutaj potwora o podanej nazwie.^~\n")

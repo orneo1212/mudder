@@ -71,6 +71,8 @@ class GameField:
             actorcommands.pickup(actor, args)
         if cmd in ["upusc", "drop"]:
             actorcommands.drop(actor, args)
+        if cmd in ["zabij", "kill"]:
+            actorcommands.fight_with_monster(actor, args)
         #
         actor.send_prompt()
 

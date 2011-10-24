@@ -1,5 +1,6 @@
 {
 "uuid":"001",
 "name":"Maly szczur",
-"desc":"Maly wstretny szczur."
+"desc":"Maly wstretny szczur.",
+"hp":[5,5]
 }
