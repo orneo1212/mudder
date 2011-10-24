@@ -13,6 +13,7 @@ class Actor:
         self.login_state=0 # 0: not logged 1: password 2:newcharacter 3: logged in 4: disconnect
         self.newingame=True
         self.inventory=[] # list of items
+        self.sit=False # does player sit
         #RPG Stats
         self.level=1
         self.exp=[0, 100] # experiance poinst and to next level points
@@ -33,9 +34,14 @@ class Actor:
         self.in_fight=False # does actor is in fight
         self.target=None # Fight target
         self.fightimer=Timer()
+        #Rest
+        self.resttimer=Timer()
 
     def update(self):
         """Update player statistic"""
+        #Rest if sitting
+        if self.resttimer.timepassed(2000) and self.sit:
+            self.hp[0]+=2
         #Health
         if self.hp[0]<0:self.hp[0]=0
         if self.hp[0]>self.hp[1]:self.hp[0]=self.hp[1]

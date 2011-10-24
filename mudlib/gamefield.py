@@ -71,6 +71,10 @@ class GameField:
         if cmd in ["szukaj", "search"]:actorcommands.search(actor)
         if cmd in ["inwentarz", "inw", "inv", "inventory"]:
             actorcommands.showinventory(actor, args)
+        if cmd in ["usiadz","sit"]:
+            actorcommands.sit(actor)
+        if cmd in ["wstan","stand"]:
+            actorcommands.stand(actor)
         if cmd in ["online"]:
             actorcommands.showonline(self.actors.values(), actor)
         if cmd in ["podnies", "pickup"]:

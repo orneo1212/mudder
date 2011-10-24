@@ -14,6 +14,7 @@ class Monster:
         #Prepare fight
         actor.in_fight=True
         actor.target=self
+        actor.sit=False
 
         texts_atk=[
                    "^G\r zadajesz %s obrazen.^~\n",

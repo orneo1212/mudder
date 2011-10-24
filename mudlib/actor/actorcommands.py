@@ -9,7 +9,7 @@ def showhelp(actor):
     commands="pomoc, patrz, status, online "
     actor.send("^Y\rInformacje:^~ %s\n" % commands)
     #
-    commands="polnoc, wschod, zachod, poludnie "
+    commands="polnoc, wschod, zachod, poludnie, usiadz, wstan"
     actor.send("^Y\rPoruszanie:^~ %s\n" % commands)
     #
     commands="podnies <nazwa>, upusc <nazwa>, szukaj, inwentarz, zjedz <nazwa> "
@@ -194,6 +194,11 @@ def drop(actor,args):
 def fight_with_monster(actor,args):
     """Fight with monster by given name"""
     room=actor.get_room()
+    #you can't fight if siting
+    if actor.sit:
+        actor.send("\r^rMyslisz co robisz? Siedzisz i chcesz walczyc?^~\n")
+        return
+    #arg required
     if len(args)==0:
         actor.send("\r^rZabic kogo?^~\n")
         return
@@ -236,5 +241,19 @@ def eatfood(actor,args):
             if done:
                 actor.inventory.remove(item)
                 return
-    actor.send("^R\rNie masz zjadliwej rzeczu o podanej nazwie^~\n")
+    actor.send("^r\rNie masz zjadliwej rzeczu o podanej nazwie^~\n")
     return
+
+def sit(actor):
+    """Sit down"""
+    if not actor.sit:
+        actor.send("\r^gSiadasz wygodnie.^~\n")
+        actor.sit=True
+    else:actor.send("\r^rSiedzisz juz.^~\n")
+
+def stand(actor):
+    """Stand up"""
+    if actor.sit:
+        actor.send("\r^gWstajesz.^~\n")
+        actor.sit=False
+    else:actor.send("\r^rStoisz juz.^~\n")
