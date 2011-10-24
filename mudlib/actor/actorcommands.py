@@ -4,10 +4,25 @@ import random
 
 def showhelp(actor):
     """Show help"""
-    commands="pomoc, wyjdz, patrz, status, powiedz <text>, szukaj, "
-    commands+="polnoc, wschod, zachod, poludnie, online, inwentarz, "
-    commands+="podnies <nazwa>, upusc <nazwa>"
-    actor.client.send_cc("^gPOMOC:^~ Polecenia: %s\n" % commands)
+    actor.client.send_cc("^gPolecenia:\n")
+    #commadns listing
+    commands="pomoc, patrz, status, online "
+    actor.send("^Y\rInformacje:^~ %s\n" % commands)
+    #
+    commands="polnoc, wschod, zachod, poludnie "
+    actor.send("^Y\rPoruszanie:^~ %s\n" % commands)
+    #
+    commands="podnies <nazwa>, upusc <nazwa>, szukaj, inwentarz "
+    actor.send("^Y\rPrzedmioty:^~ %s\n" % commands)
+    #
+    commands="powiedz <tekst>"
+    actor.send("^Y\rRozmowa:^~ %s\n" % commands)
+    #
+    commands="zabij <kogo>"
+    actor.send("^Y\rWalka:^~ %s\n" % commands)
+    #
+    commands="wyjdz "
+    actor.send("^Y\rInne:^~ %s\n" % commands)
 
 def look(actor):
     """Show informations about room"""
