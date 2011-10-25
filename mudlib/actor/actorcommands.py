@@ -299,4 +299,4 @@ def give_item(actor, args):
     actor.inventory.remove(item.uuid)
     newactor.inventory.append(item.uuid)
     actor.send("\r^G^y%s^G orzymal od ciebie %s.^~\n" % (newactor.name, item.name))
-    actor.send("\r^G^y%s^G dal ci %s.^~\n" % (actor.name, item.name))
+    newactor.send("\r^G^y%s^G dal ci %s.^~\n" % (actor.name, item.name))

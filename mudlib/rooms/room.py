@@ -32,7 +32,7 @@ class Room:
     def get_actor_by_name(self,partialname):
         """Return first actor(obj) matching partial name"""
         for actor in self.players:
-            if partialname.lower() in actor.name:
+            if partialname.lower() in actor.name.lower():
                 return actor
         return None
 
