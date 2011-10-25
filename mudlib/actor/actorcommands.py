@@ -50,7 +50,9 @@ def look(actor, args=[]):
             actor.send("\r  %s\n" % monster.desc)
             return
         return
+    #########################
     #show information about location
+    #########################
     actor.client.send_cc("\r^c%s^~\n" % str(room.name))
     #Show exits
     actor.client.send_cc("\r[ Wyjscia: ^Y")
@@ -84,7 +86,11 @@ def look(actor, args=[]):
     if len(room.monsters)>0:
         actor.send("\r^RTutaj sa wrogie potwory. Badz ostrozny: ")
         for monster in room.monsters: # for each monster object in room
-            actor.send("%s " % str(monster.name))
+            #if last dont add comma
+            if monster==room.monsters[-1]:
+                actor.send("%s" % str(monster.name))
+            else:
+                actor.send("%s, " % str(monster.name))
         actor.send("^~\n")
 
 def showstatus(actor):
@@ -181,7 +187,7 @@ def pickup(actor, args):
     args=" ".join(args)
     room=room=actor.get_room()
 
-    itemobj=actor.get_item_by_name(args)
+    itemobj=room.get_item_by_name(args)
     if itemobj:
         actor.send("\r^gPodnosisz %s.^~\n" % itemobj.name)
         actor.inventory.append(itemobj.uuid)
