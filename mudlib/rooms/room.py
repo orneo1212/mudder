@@ -29,12 +29,18 @@ class Room:
                 return monster
         return None
 
-    def get_actor_by_name(self,partialname):
+    def get_actor_by_name(self, partialname):
         """Return first actor(obj) matching partial name"""
         for actor in self.players:
             if partialname.lower() in actor.name.lower():
                 return actor
         return None
+
+    def broadcast(self, text, sender=None):
+        """Broadcast message for all actors in room"""
+        for actor in self.players:
+            if actor==sender:continue
+            actor.send(text)
 
     def on_enter(self, actor):
         """callback on enter to this location"""

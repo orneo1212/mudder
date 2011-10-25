@@ -84,7 +84,7 @@ def look(actor, args=[]):
     if len(room.monsters)>0:
         actor.send("\r^RTutaj sa wrogie potwory. Badz ostrozny: ")
         for monster in room.monsters: # for each monster object in room
-            actor.send("%s, " % str(monster.name))
+            actor.send("%s " % str(monster.name))
         actor.send("^~\n")
 
 def showstatus(actor):
@@ -204,6 +204,7 @@ def drop(actor, args):
         actor.inventory.remove(itemobj.uuid)
         room.items.append(itemobj.uuid)
         actor.send("\r^gWyrzuciles %s^~\n" % itemobj.name)
+        room.broadcast("\r^g%s wyrzucil %s^~\n" % (actor.name, itemobj.name), actor)
         return
     #there no item with given part of name
     actor.send("\r^rNie masz nic o podanej nazwie.^~\n")
