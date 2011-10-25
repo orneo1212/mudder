@@ -29,6 +29,13 @@ class Room:
                 return monster
         return None
 
+    def get_actor_by_name(self,partialname):
+        """Return first actor(obj) matching partial name"""
+        for actor in self.players:
+            if partialname.lower() in actor.name:
+                return actor
+        return None
+
     def on_enter(self, actor):
         """callback on enter to this location"""
         self.players.append(actor)

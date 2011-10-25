@@ -12,7 +12,7 @@ def showhelp(actor):
     commands="polnoc, wschod, zachod, poludnie, usiadz, wstan"
     actor.send("^Y\rPoruszanie:^~ %s\n" % commands)
     #
-    commands="podnies <nazwa>, upusc <nazwa>, szukaj, inwentarz, zjedz <nazwa> "
+    commands="podnies <nazwa>, upusc <nazwa>, szukaj, inwentarz, zjedz <nazwa>, daj <komu> <co> "
     actor.send("^Y\rPrzedmioty:^~ %s\n" % commands)
     #
     commands="powiedz <tekst>"
@@ -273,3 +273,30 @@ def stand(actor):
         actor.send("\r^gWstajesz.^~\n")
         actor.sit=False
     else:actor.send("\r^rStoisz juz.^~\n")
+
+def give_item(actor, args):
+    """Send item to other actor by name. <actorName> <itemName>"""
+    #check argument
+    if len(args)==0:
+        actor.send("\r^rKomu chcesz dac przedmiot?^~\n")
+        return
+    #Check second argument
+    elif len(args)==1:
+        actor.send("\r^rJaki przedmiot chcesz dac?^~\n")
+        return
+    #Get player by name from room
+    room=actor.get_room()
+    newactor=room.get_actor_by_name(args[0])
+    if not newactor:
+        actor.send("\r^rNie ma tu gracza o podanej nazwie.^~\n")
+        return
+    #Get item from inventory
+    item=actor.get_item_by_name(" ".join(args[1:]))
+    if not item:
+        actor.send("\r^rNie masz przedmiotu o podanej nazwie.^~\n")
+        return
+    #Finally do trade
+    actor.inventory.remove(item.uuid)
+    newactor.inventory.append(item.uuid)
+    actor.send("\r^G^y%s^G orzymal od ciebie %s.^~\n" % (newactor.name, item.name))
+    actor.send("\r^G^y%s^G dal ci %s.^~\n" % (actor.name, item.name))

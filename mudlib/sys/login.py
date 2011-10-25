@@ -42,7 +42,8 @@ def Login(actor, command):
 
 def check_name(actor, name):
     """Return True if actor can use that name. (correct syntax)"""
-    if len(name)>3 and len(name)<=20:return True
+    if len(name)>3 and len(name)<=20 and " " not in name:
+        return True
     else:return False
 
 def actor_exist(actor,name):
